@@ -27,9 +27,11 @@ Integration Plan:
 
 ### Data
 We will use the following datasets:
-- **Greek Common Crawl Dataset**: A large corpus of web text in Greek.
-- **Greek Wikipedia**: For high-quality, structured text.
-- **OpenSubtitles**: To add conversational and informal text.
+
+- **[Greek Wikipedia](https://huggingface.co/datasets/legacy-datasets/wikipedia?utm_source=chatgpt.com)**: Wikipedia provides language-specific dumps, 
+including Greek. These dumps contain high-quality, structured articles in Greek, suitable for various natural language processing tasks.
+
+- **[OpenSubtitles](https://paperswithcode.com/dataset/opensubtitles?utm_source=chatgpt.com)**: OpenSubtitles is a collection of multilingual parallel corpora compiled from a large database of movie and TV subtitles. The dataset includes subtitles in Greek, offering conversational and informal text that can be valuable for training language models.
 
 These datasets will be preprocessed to clean and tokenize the text, ensuring high-quality inputs.
 
