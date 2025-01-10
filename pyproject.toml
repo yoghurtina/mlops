@@ -7,7 +7,8 @@ name = "mlops"
 version = "0.0.1"
 description = "An LLM for the Greek language"
 authors = [
-  { name = "team25", email = "your@email.com" },
+  { name = "Ioanna Gemou", email = "s233095@dtu.dk" },
+  { name = "Evangelos Lamprou", email = "evala@dtu.dk" },
 ]
 license = { file = "LICENSE" }
 keywords = ["machine learning", "MLOps"]
