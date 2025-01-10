@@ -41,6 +41,20 @@ We will focus on the following models:
 - **BERT-based Model**: Adapted for Greek tasks like sentiment analysis and question answering.
 An LLM for the Greek language
 
+## Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yoghurtina/mlops
+```
+2. Install the required dependencies:
+```bash
+pipx install invoke
+invoke create-environment
+invoke requirements
+invoke dev-requirements
+```
+
 ## Project structure
 
 The directory structure of the project looks like this:
@@ -85,7 +99,7 @@ The directory structure of the project looks like this:
 ├── README.md                 # Project README
 ├── requirements.txt          # Project requirements
 ├── requirements_dev.txt      # Development requirements
-└── tasks.py                  # Project tasks
+└── tasks.py                  # Invoke tasks
 ```
 
 Created using [mlops_template](https://github.com/SkafteNicki/mlops_template),
