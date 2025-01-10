@@ -13,11 +13,11 @@ making it feasible to train on accessible hardware.
 
 ### Framework and Integration
 We will use the following frameworks and tools:
-- **PyTorch**: For training and fine-tuning the model.
-- **Hugging Face Transformers**: For leveraging pre-trained models as a base for fine-tuning.
-- **Docker**: To containerize the environment for easy deployment.
-- **Git**: For version control and collaboration.
-- **Code Environments**: Tools like Visual Studio Code (VSCode) and Vim for writing and debugging code.
+- **PyTorch**: Selected for its flexibility in custom model development and widespread use in the deep learning community, making it easier to find resources and support.
+- **Hugging Face Transformers**: Provides a robust library of pre-trained models, which will save time and effort in fine-tuning models specifically for Greek tasks.
+- **Docker**: Ensures a consistent and reproducible setup by containerizing the environment, simplifying collaboration and deployment.
+- **Git**: Used for version control, enabling collaboration and maintaining a clear history of changes.
+- **Code Environments**: Tools such as Visual Studio Code (VSCode) and Vim for writing and debugging code.
 - **Deep Learning Software**: Such as CUDA and cuDNN to accelerate model training on GPUs.
 
 Integration Plan:
