@@ -39,7 +39,6 @@ These datasets will be preprocessed to clean and tokenize the text, ensuring hig
 We will focus on the following models:
 - **GPT-2-based Model**: A small, manageable model fine-tuned for Greek text generation and completion.
 - **BERT-based Model**: Adapted for Greek tasks like sentiment analysis and question answering.
-An LLM for the Greek language
 
 ## Installation
 
