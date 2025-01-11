@@ -53,6 +53,14 @@ invoke create-environment
 invoke requirements
 invoke dev-requirements
 ```
+3. Activate the virtual environment:
+```bash
+conda activate mlops
+```
+4. Install the pre-commit hooks:
+```bash
+pre-commit install
+```
 
 ## Project structure
 
