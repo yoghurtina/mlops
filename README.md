@@ -3,42 +3,54 @@
 ## Project Description
 
 ### Overall Goal of the Project
-The goal of this project is to develop a small Large Language Model (LLM) tailored for the Greek language. 
-The model will support tasks such as text generation and natural language understanding in Greek. 
-By focusing on Greek, this project aims to fill the gap in AI tools for smaller language communities. 
+The primary goal of this project is to fine-tune and evaluate a 
+lightweight Large Language Model (LLM) for general-purpose text generation. 
+By focusing on an accessible model like GPT-2, this project aims to enable 
+efficient training and deployment on limited hardware, 
+making it suitable for small-scale experiments and projects.
 
-We aim to use MLOps practices to make development efficient and reproducible.
-The model will be designed to be lightweight, comparable to GPT-2, 
-making it feasible to train on accessible hardware.
+We aim to follow MLOps best practices to make development efficient and reproducible,
+emphasizing ease of use and simplicity in deployment.
 
-### Framework and Integration
-We will use the following frameworks and tools:
-- **PyTorch**: Selected for its flexibility in custom model development and widespread use in the deep learning community, making it easier to find resources and support.
-- **Hugging Face Transformers**: Provides a robust library of pre-trained models, which will save time and effort in fine-tuning models specifically for Greek tasks.
-- **Docker**: Ensures a consistent and reproducible setup by containerizing the environment, simplifying collaboration and deployment.
-- **Git**: Used for version control, enabling collaboration and maintaining a clear history of changes.
-- **Code Environments**: Tools such as Visual Studio Code (VSCode) and Vim for writing and debugging code.
-- **Deep Learning Software**: Such as CUDA and cuDNN to accelerate model training on GPUs.
+## Framework and Integration
 
-Integration Plan:
-1. Fine-tune a pre-trained model using Hugging Face Transformers.
-2. Use Docker to ensure a consistent and reproducible setup.
-3. Automate workflows for training and deployment.
+We use the following tools and frameworks for the development and deployment of the project:
 
-### Data
-We will use the following datasets:
+- **PyTorch Lightning**: for modular and scalable training workflows.
+- **Transformers (Hugging Face)**: use of pre-trained models and utilities for fine-tuning and text generation.
+- **Datasets (Hugging Face)**: for easy access to standardized datasets for training and evaluation.
+- **Docker**: for consistent development environment through containerization, simplifying deployment and collaboration.
+- **CUDA/cuDNN**: to accelerate model training on compatible GPUs.
 
-- **[Greek Wikipedia](https://huggingface.co/datasets/legacy-datasets/wikipedia?utm_source=chatgpt.com)**: Wikipedia provides language-specific dumps, 
-including Greek. These dumps contain high-quality, structured articles in Greek, suitable for various natural language processing tasks.
+### Integration Plan
 
-- **[OpenSubtitles](https://paperswithcode.com/dataset/opensubtitles?utm_source=chatgpt.com)**: OpenSubtitles is a collection of multilingual parallel corpora compiled from a large database of movie and TV subtitles. The dataset includes subtitles in Greek, offering conversational and informal text that can be valuable for training language models.
+1. **Model Fine-Tuning**:  
+   - A pre-trained GPT-2 model is fine-tuned on a text corpus using PyTorch Lightning and the Hugging Face Transformers library.
+   - Training and validation data loaders handle tokenization, padding, and truncation to create high-quality inputs for the model.
 
-These datasets will be preprocessed to clean and tokenize the text, ensuring high-quality inputs.
+2. **Evaluation**:  
+   - Evaluate the model's performance on the validation dataset using established metrics.
 
-### Models
-We will focus on the following models:
-- **GPT-2-based Model**: A small, manageable model fine-tuned for Greek text generation and completion.
-- **BERT-based Model**: Adapted for Greek tasks like sentiment analysis and question answering.
+3. **Reproducibility**:  
+   - Dockerized workflows ensure consistent environments for training and testing.
+   - Hugging Face Datasets and Transformers provide reproducible and easy-to-implement data handling.
+
+## Data
+
+The project uses the **WikiText-2** dataset, which consists of high-quality English text. 
+This dataset is ideal for text generation tasks, offering structured, clean, and context-rich content.
+
+Preprocessing steps include:
+- Removing empty or invalid text samples.
+- Tokenizing, truncating, and padding text for input to the model.
+
+## Models
+
+The project is built around the following model architecture:
+
+- **GPT-2 Fine-Tuned Model**:
+  - Fine-tuned on the WikiText-2 dataset for English text generation.
+  - Lightweight and efficient for deployment on accessible hardware.
 
 ## Installation
 
