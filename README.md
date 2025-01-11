@@ -29,7 +29,7 @@ We use the following tools and frameworks for the development and deployment of 
    - Training and validation data loaders handle tokenization, padding, and truncation to create high-quality inputs for the model.
 
 2. **Evaluation**:  
-   - Evaluate the model's performance on the validation dataset using established metrics.
+   - Evaluation of the model's performance on the validation dataset using established metrics.
 
 3. **Reproducibility**:  
    - Dockerized workflows ensure consistent environments for training and testing.
@@ -37,8 +37,10 @@ We use the following tools and frameworks for the development and deployment of 
 
 ## Data
 
-The project uses the **WikiText-2** dataset, which consists of high-quality English text. 
-This dataset is ideal for text generation tasks, offering structured, clean, and context-rich content.
+The project uses the [**WikiText-2**](https://huggingface.co/datasets/Salesforce/wikitext) dataset, 
+which consists of high-quality English text. 
+This dataset offers structured, clean, and context-rich content,
+making it ideal for text generation tasks.
 
 Preprocessing steps include:
 - Removing empty or invalid text samples.
