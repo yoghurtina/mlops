@@ -17,3 +17,5 @@ mkdocs-material==9.4.6
 mkdocstrings-python==1.12.2
 hydra-core
 docker
+
+httpx
