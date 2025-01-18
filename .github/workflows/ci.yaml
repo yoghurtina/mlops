@@ -29,8 +29,7 @@ jobs:
 
       - name: Lint code with Ruff
         run: |
-          ruff check src tests --fix  # Lint and fix issues automatically
-
+          ruff check src tests --fix  
       - name: Run Ruff
         run: ruff check src tests  # Only check without fixing
 
