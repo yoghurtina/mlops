@@ -29,13 +29,16 @@ jobs:
 
       - name: Lint code with Ruff
         run: |
-          ruff check tests --fix  
-      - name: Run Ruff
-        run: ruff check tests  # Only check without fixing
+          ruff check src tests --fix  # Lint and fix issues automatically
+
+      - name: Run Tests
+        run: |
+          pytest --cov=src tests/
 
   lint-only:
     name: Run Linting Only
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -49,4 +52,5 @@ jobs:
         run: pip install ruff
 
       - name: Run Ruff
-        run: ruff tests
+        run: |
+          ruff check src tests
