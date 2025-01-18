@@ -77,6 +77,16 @@ conda activate mlops
 pre-commit install
 ```
 
+## Development Guidelines
+
+We use `ruff` to enforce code style and automatically fix issues in the codebase. 
+The `invoke lint` command runs ruff with automatic fixing enabled.
+
+- To run linting and automatically fix issues:
+```bash
+   invoke lint
+```
+
 ## Project structure
 
 The directory structure of the project looks like this:
