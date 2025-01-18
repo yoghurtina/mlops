@@ -18,5 +18,5 @@ RUN pip install --no-cache-dir --upgrade pip && \
     pip install -r requirements.txt && \
     pip install .
 
-# Set the entry point for training
-ENTRYPOINT ["python", "-m", "mlops.train"]
+# Set the entry point for evaluation
+ENTRYPOINT ["python", "-m", "mlops.evaluate"]
