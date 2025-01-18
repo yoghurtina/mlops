@@ -6,7 +6,6 @@ tensorboard
 torch
 transformers
 pytorch-lightning
-test-tube
 numpy
 pytorch-nlp
 protobuf
