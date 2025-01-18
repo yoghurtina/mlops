@@ -20,6 +20,7 @@ We use the following tools and frameworks for the development and deployment of 
 - **Transformers (Hugging Face)**: use of pre-trained models and utilities for fine-tuning and text generation.
 - **Datasets (Hugging Face)**: for easy access to standardized datasets for training and evaluation.
 - **Docker**: for consistent development environment through containerization, simplifying deployment and collaboration.
+- **Hydra**: for flexible configuration management, enabling easy customization of hyperparameters, datasets, and training settings.
 - **CUDA/cuDNN**: to accelerate model training on compatible GPUs.
 
 ### Integration Plan
@@ -86,54 +87,90 @@ The `invoke lint` command runs ruff with automatic fixing enabled.
 ```bash
    invoke lint
 ```
+## Training and Evaluation
+To fine-tune the GPT-2 model on the WikiText-2 dataset, use the `train` command. 
+This command will load the training data, initialize the model, and start the fine-tuning process.
+
+```bash
+   train
+```
+To evaluate the fine-tuned model on the validation set and calculate metrics (e.g., perplexity), use the evaluate command.
+```bash
+   evaluate
+```
+- Note: Both commands rely on the project's CLI integration, set up via the `pyproject.toml` file.
+Ensure you have installed the project in editable mode before running these commands:
+```bash
+   pip install -e .
+```
+### Docker Usage
+Use the `train` and `evaluate` commands to fine-tune and evaluate your GPT-2 model, 
+either directly through the CLI or via Docker.
+
+#### Build Docker Images
+
+1. Build the training image:  
+   `docker build -f dockerfiles/train.dockerfile -t mlops-train .`
+
+2. Build the evaluation image:  
+   `docker build -f dockerfiles/evaluate.dockerfile -t mlops-evaluate .`
+
+#### Run Containers
+
+1. **Train the model**:  
+   `docker run --rm mlops-train`
+
+2. **Evaluate the model**:  
+   `docker run --rm mlops-evaluate`
+
+#### Using GPUs
+
+If you have GPU support, run the containers with GPU access:  
+`docker run --rm --gpus all mlops-train`
+
 
 ## Project structure
-
-The directory structure of the project looks like this:
-```txt
-├── .github/                  # Github actions and dependabot
+├── .github/                  # GitHub actions and dependabot configuration
 │   ├── dependabot.yaml
 │   └── workflows/
 │       └── tests.yaml
-├── configs/                  # Configuration files
+├── configs/                  # Configuration files for Hydra
+│   ├── __init__.py
+│   └── config.yaml           # Default project configuration
 ├── data/                     # Data directory
-│   ├── processed
-│   └── raw
-├── dockerfiles/              # Dockerfiles
-│   ├── api.Dockerfile
-│   └── train.Dockerfile
-├── docs/                     # Documentation
+│   ├── processed/            # Processed datasets
+│   └── raw/                  # Raw datasets
+├── dockerfiles/              # Dockerfiles for training and evaluation
+│   ├── api.dockerfile
+│   ├── evaluate.dockerfile
+│   └── train.dockerfile
+├── docs/                     # Project documentation
 │   ├── mkdocs.yml
 │   └── source/
 │       └── index.md
-├── models/                   # Trained models
-├── notebooks/                # Jupyter notebooks
-├── reports/                  # Reports
-│   └── figures/
-├── src/                      # Source code
-│   ├── project_name/
+├── models/                   # Directory for storing trained models
+├── notebooks/                # Jupyter notebooks for exploration and experiments
+├── reports/                  # Reports and visualizations
+│   └── figures/              # Directory for storing figures and plots
+├── src/                      # Source code for the project
+│   ├── mlops/                # Main Python package for the project
 │   │   ├── __init__.py
-│   │   ├── api.py
-│   │   ├── data.py
-│   │   ├── evaluate.py
-│   │   ├── models.py
-│   │   ├── train.py
-│   │   └── visualize.py
-└── tests/                    # Tests
+│   │   ├── api.py            # FastAPI app for text generation
+│   │   ├── data.py           # Data loading and preprocessing logic
+│   │   ├── evaluate.py       # Evaluation logic
+│   │   ├── models.py         # Model definitions
+│   │   ├── train.py          # Training script
+│   │   └── visualize.py      # Visualization utilities
+├── tests/                    # Unit tests for the project
 │   ├── __init__.py
 │   ├── test_api.py
 │   ├── test_data.py
 │   └── test_model.py
-├── .gitignore
-├── .pre-commit-config.yaml
-├── LICENSE
-├── pyproject.toml            # Python project file
+├── .gitignore                # Files to ignore in Git
+├── .pre-commit-config.yaml   # Pre-commit hooks configuration
+├── LICENSE                   # Project license
+├── pyproject.toml            # Python project configuration file
 ├── README.md                 # Project README
-├── requirements.txt          # Project requirements
-├── requirements_dev.txt      # Development requirements
-└── tasks.py                  # Invoke tasks
-```
-
-Created using [mlops_template](https://github.com/SkafteNicki/mlops_template),
-a [cookiecutter template](https://github.com/cookiecutter/cookiecutter) for getting
-started with Machine Learning Operations (MLOps).
+├── requirements.txt          # Project runtime dependencies
+├── requirements_dev.txt      # Project development dependencies
+└── tasks.py                  # Invoke tasks for automation
