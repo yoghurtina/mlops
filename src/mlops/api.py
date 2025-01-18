@@ -2,38 +2,45 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from transformers import GPT2Tokenizer, GPT2LMHeadModel
 import torch
+import logging
 
 app = FastAPI()
 
+logger = logging.getLogger("api")
+logging.basicConfig(level=logging.INFO)
+
 model_name = "distilbert/distilgpt2"
-tokenizer = GPT2Tokenizer.from_pretrained(model_name)
-tokenizer.pad_token = tokenizer.eos_token  
-model = GPT2LMHeadModel.from_pretrained(model_name)
-model.eval()  
+tokenizer = None
+model = None
+
+@app.on_event("startup")
+async def load_model():
+    global tokenizer, model
+    tokenizer = GPT2Tokenizer.from_pretrained(model_name)
+    tokenizer.pad_token = tokenizer.eos_token
+    model = GPT2LMHeadModel.from_pretrained(model_name)
+    model.eval()
+    logger.info("Model and tokenizer loaded successfully.")
 
 class TextGenerationRequest(BaseModel):
-    """
-    Request model for text generation API.
-    """
     prompt: str
     max_length: int = 50
 
 @app.post("/generate")
-def generate_text(request: TextGenerationRequest):
-    """
-    Generate text based on the provided prompt and max length.
-
-    Args:
-        request (TextGenerationRequest): The input prompt and max length.
-
-    Returns:
-        dict: Generated text in JSON format.
-    """
-    inputs = tokenizer(request.prompt, return_tensors="pt", truncation=True, padding=True)
-    with torch.no_grad():
-        outputs = model.generate(inputs.input_ids, max_length=request.max_length, pad_token_id=tokenizer.eos_token_id)
-    generated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
-    return {"generated_text": generated_text}
+async def generate_text(request: TextGenerationRequest):
+    logger.info(f"Received prompt: {request.prompt}")
+    try:
+        inputs = tokenizer(request.prompt, return_tensors="pt", truncation=True, padding=True)
+        with torch.no_grad():
+            outputs = model.generate(inputs.input_ids, 
+                                     max_length=request.max_length, 
+                                     pad_token_id=tokenizer.eos_token_id)
+        generated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
+        logger.info(f"Generated text: {generated_text}")
+        return {"generated_text": generated_text}
+    except Exception as e:
+        logger.error(f"Error during text generation: {str(e)}")
+        return {"error": str(e)}
 
 if __name__ == "__main__":
     import uvicorn

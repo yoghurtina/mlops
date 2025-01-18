@@ -14,22 +14,15 @@ class GPT2FineTuner(pl.LightningModule):
         warmup_steps (int): Number of warmup steps for the learning rate scheduler.
     """
 
-    def __init__(
-        self,
-        model_name: str = "distilbert/distilgpt2",
-        learning_rate: float = 5e-5,
-        warmup_steps: int = 500,
-    ):
+    def __init__(self, model_name: str = "distilbert/distilgpt2", learning_rate: float = 5e-5, warmup_steps: int = 500):
         """
         Initializes the fine-tuner.
 
         Args:
-            model_name (str): Hugging Face model name or path to a pre-trained GPT-2 model.
-            learning_rate (float): Learning rate for the optimizer.
-            warmup_steps (int): Number of warmup steps for the scheduler.
+            config (Dict): Configuration dictionary with model parameters.
         """
         super().__init__()
-        self.save_hyperparameters()  # Logs hyperparameters automatically
+        self.save_hyperparameters() 
         self.model = GPT2LMHeadModel.from_pretrained(model_name)
         self.learning_rate = learning_rate
         self.warmup_steps = warmup_steps

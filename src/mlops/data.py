@@ -1,9 +1,10 @@
 import os
-from typing import Dict
+from typing import Dict, Optional
 from torch.utils.data import Dataset, DataLoader
 from transformers import PreTrainedTokenizer
 from datasets import load_dataset, Dataset as HFDataset
 import torch
+
 
 class TextDataset(Dataset):
     """
@@ -28,34 +29,45 @@ class TextDataset(Dataset):
         Initializes the TextDataset.
 
         Args:
-            tokenizer (PreTrainedTokenizer): Hugging Face tokenizer.
+            tokenizer (PreTrainedTokenizer): Hugging Face tokenizer for text processing.
             dataset_name (str): Name of the dataset to load.
             config_name (str): Specific configuration name of the dataset.
-            split (str): Split of the dataset ("train", "validation", etc.).
+            split (str): Dataset split ("train", "validation", etc.).
             max_length (int): Maximum token length for input sequences.
+
+        Raises:
+            RuntimeError: If the dataset fails to load.
         """
-        self.dataset: HFDataset = load_dataset(dataset_name, config_name, split=split).filter(
-            lambda x: len(x["text"].strip()) > 0
-        )
+        try:
+            self.dataset: HFDataset = load_dataset(
+                dataset_name, config_name, split=split, cache_dir="./cache"
+            ).filter(lambda x: len(x["text"].strip()) > 0)
+        except Exception as e:
+            raise RuntimeError(f"Failed to load dataset: {e}")
+
         self.tokenizer: PreTrainedTokenizer = tokenizer
         self.max_length: int = max_length
 
     def __len__(self) -> int:
         """
+        Returns the total number of samples in the dataset.
+
         Returns:
-            int: The total number of samples in the dataset.
+            int: The number of samples in the dataset.
         """
         return len(self.dataset)
 
-    def __getitem__(self, idx: int) -> Dict[str, "torch.Tensor"]:
+    def __getitem__(self, idx: int) -> Dict[str, torch.Tensor]:
         """
-        Retrieves a single tokenized data sample.
+        Retrieves a tokenized data sample at the specified index.
 
         Args:
             idx (int): Index of the sample to retrieve.
 
         Returns:
-            Dict[str, torch.Tensor]: A dictionary containing `input_ids` and `attention_mask`.
+            Dict[str, torch.Tensor]: A dictionary containing:
+                - `input_ids`: Tensor of tokenized input IDs.
+                - `attention_mask`: Tensor of attention masks.
         """
         text = self.dataset[idx]["text"].strip()
         if not text:
@@ -64,7 +76,7 @@ class TextDataset(Dataset):
             text,
             truncation=True,
             max_length=self.max_length,
-            padding="max_length",
+            padding="max_length",  # Ensures consistent padding to max_length
             return_tensors="pt",
         )
         return {
@@ -80,20 +92,33 @@ def get_dataloader(
     batch_size: int,
     max_length: int,
     config_name: str = "wikitext-2-raw-v1",
+    num_workers: Optional[int] = None,
 ) -> DataLoader:
     """
     Creates a DataLoader for the TextDataset.
 
     Args:
         dataset_name (str): Name of the dataset to load.
-        tokenizer (PreTrainedTokenizer): Hugging Face tokenizer.
+        tokenizer (PreTrainedTokenizer): Hugging Face tokenizer for text processing.
         split (str): Dataset split ("train", "validation", etc.).
         batch_size (int): Batch size for the DataLoader.
         max_length (int): Maximum token length for input sequences.
-        config_name (str): Specific configuration name of the dataset.
+        config_name (str): Specific configuration name of the dataset (default: "wikitext-2-raw-v1").
+        num_workers (Optional[int]): Number of worker processes for data loading.
 
     Returns:
-        DataLoader: A PyTorch DataLoader for the dataset.
+        DataLoader: A PyTorch DataLoader for the dataset, ready for training or evaluation.
     """
-    dataset = TextDataset(tokenizer, dataset_name, config_name, split, max_length)
-    return DataLoader(dataset, batch_size=batch_size, shuffle=(split == "train"), num_workers=os.cpu_count())
+    dataset = TextDataset(
+        tokenizer=tokenizer,
+        dataset_name=dataset_name,
+        config_name=config_name,
+        split=split,
+        max_length=max_length,
+    )
+    return DataLoader(
+        dataset,
+        batch_size=batch_size,
+        shuffle=(split == "train"),  # Shuffle data only for training split
+        num_workers=num_workers or os.cpu_count(),  # Use specified num_workers or default to CPU count
+    )
