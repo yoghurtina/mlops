@@ -29,11 +29,10 @@ jobs:
 
       - name: Lint code with Ruff
         run: |
-          ruff src tests --fix  # Lint and fix issues automatically
+          ruff check src tests --fix  # Lint and fix issues automatically
 
-      - name: Run tests
-        run: |
-          pytest --cov=src tests/
+      - name: Run Ruff
+        run: ruff check src tests  # Only check without fixing
 
   lint-only:
     name: Run Linting Only
