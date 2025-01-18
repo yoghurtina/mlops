@@ -63,3 +63,5 @@ maildir
 lightning_logs
 cache
 outputs
+.DS_Store
+src/.DS_Store
