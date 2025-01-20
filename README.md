@@ -132,9 +132,8 @@ If you have GPU support, run the containers with GPU access:
 ## Project Structure
 ```
 ├── .github/                  # GitHub actions and dependabot configuration
-│   ├── dependabot.yaml
 │   └── workflows/
-│       └── tests.yaml
+│       └── ci.yaml
 ├── configs/                  # Configuration files for Hydra
 │   ├── __init__.py
 │   └── config.yaml           # Default project configuration
