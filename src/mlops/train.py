@@ -35,6 +35,7 @@ def main(cfg: DictConfig) -> None:
         split="validation",
         batch_size=cfg.data.batch_size,
         max_length=cfg.data.max_length,
+        limit=cfg.data.limit,
     )
     
 
@@ -53,6 +54,8 @@ def main(cfg: DictConfig) -> None:
         precision=cfg.training.precision,
         log_every_n_steps=cfg.logging.log_every_n_steps,
         accumulate_grad_batches=cfg.training.accumulate_grad_batches,
+        limit_train_batches=cfg.training.limit_train_batches,
+        limit_val_batches=cfg.training.limit_val_batches,
     )
 
     # Start training

@@ -24,6 +24,7 @@ class TextDataset(Dataset):
         config_name: str = "wikitext-2-raw-v1",
         split: str = "train",
         max_length: int = 512,
+        limit: Optional[int] = None,
     ):
         """
         Initializes the TextDataset.
@@ -47,6 +48,9 @@ class TextDataset(Dataset):
 
         self.tokenizer: PreTrainedTokenizer = tokenizer
         self.max_length: int = max_length
+
+        if limit is not None:
+            self.dataset = self.dataset.select(range(min(limit, len(self.dataset))))
 
     def __len__(self) -> int:
         """
@@ -93,6 +97,7 @@ def get_dataloader(
     max_length: int,
     config_name: str = "wikitext-2-raw-v1",
     num_workers: Optional[int] = None,
+    limit: Optional[int] = None,
 ) -> DataLoader:
     """
     Creates a DataLoader for the TextDataset.
@@ -115,6 +120,7 @@ def get_dataloader(
         config_name=config_name,
         split=split,
         max_length=max_length,
+        limit=limit,
     )
     return DataLoader(
         dataset,
