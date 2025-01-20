@@ -33,7 +33,7 @@ the end indicates what module the bullet point is related to.
 - [x] Calculate the code coverage (M16)
 - [x] Get some continuous integration running on the GitHub repository (M17)
 - [ ] Add caching and multi-os/python/pytorch testing to your continuous integration (M17)
-- [ ] Add a linting step to your continuous integration (M17)
+- [x] Add a linting step to your continuous integration (M17)
 - [x] Add pre-commit hooks to your version control setup (M18)
 - [ ] Add a continues workflow that triggers when data changes (M19)
 - [ ] Add a continues workflow that triggers when changes to the model registry is made (M19)
@@ -57,7 +57,8 @@ the end indicates what module the bullet point is related to.
 - [ ] If applicable, optimize the performance of your data loading using distributed data loading (M29)
 - [ ] If applicable, optimize the performance of your training pipeline by using distributed training (M30)
 - [ ] Play around with quantization, compilation and pruning for you trained models to increase inference speed (M31)
-- [ ] Extra
+
+## Extra
 - [ ] Write some documentation for your application (M32)
 - [ ] Publish the documentation to GitHub Pages (M32)
 - [ ] Revisit your initial project description. Did the project turn out as you wanted?
