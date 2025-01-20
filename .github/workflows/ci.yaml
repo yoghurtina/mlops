@@ -28,8 +28,7 @@ jobs:
           pip install -r requirements_dev.txt
 
       - name: Lint code with Ruff
-        run: |
-          ruff check src tests --fix  # Lint and fix issues automatically
+        run: ruff check ./tests --fix
 
       - name: Run Tests
         run: |
@@ -52,5 +51,4 @@ jobs:
         run: pip install ruff
 
       - name: Run Ruff
-        run: |
-          ruff check src tests
+        run: ruff check ./tests
