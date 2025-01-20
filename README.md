@@ -129,7 +129,8 @@ If you have GPU support, run the containers with GPU access:
 `docker run --rm --gpus all mlops-train`
 
 
-## Project structure
+## Project Structure
+
 ├── .github/                  # GitHub actions and dependabot configuration
 │   ├── dependabot.yaml
 │   └── workflows/
