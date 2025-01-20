@@ -25,14 +25,19 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements_dev.txt
+          pip install pipx
+          pipx install invoke
+          invoke create-environment
+          invoke requirements
+          invoke dev-requirements
 
       - name: Lint code with Ruff
-        run: ruff check ./tests --fix
+        run: |
+          invoke lint
 
       - name: Run Tests
         run: |
-          pytest --cov=src tests/
+          invoke test
 
   lint-only:
     name: Run Linting Only
@@ -51,4 +56,4 @@ jobs:
         run: pip install ruff
 
       - name: Run Ruff
-        run: ruff check ./tests
+        run: ruff check .
