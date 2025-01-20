@@ -130,7 +130,7 @@ If you have GPU support, run the containers with GPU access:
 
 
 ## Project Structure
-
+```
 ├── .github/                  # GitHub actions and dependabot configuration
 │   ├── dependabot.yaml
 │   └── workflows/
@@ -175,3 +175,8 @@ If you have GPU support, run the containers with GPU access:
 ├── requirements.txt          # Project runtime dependencies
 ├── requirements_dev.txt      # Project development dependencies
 └── tasks.py                  # Invoke tasks for automation
+```
+
+Created using [mlops_template](https://github.com/SkafteNicki/mlops_template),
+a [cookiecutter template](https://github.com/cookiecutter/cookiecutter) for getting
+started with Machine Learning Operations (MLOps).
