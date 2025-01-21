@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        service: [mlops-train, mlops-api, mlops-evaluate]
+        service: [mlops-train]
 
     steps:
       - name: Checkout Code
