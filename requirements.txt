@@ -10,3 +10,4 @@ numpy
 pytorch-nlp
 protobuf
 datasets
+google-cloud-storage
