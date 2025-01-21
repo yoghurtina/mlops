@@ -1,6 +1,6 @@
 import pytorch_lightning as pl
 from pytorch_lightning.callbacks import ModelCheckpoint
-from transformers import GPT2Tokenizer, GPT2LMHeadModel
+from transformers import GPT2Tokenizer
 from mlops.data import get_dataloader
 from mlops.model import GPT2FineTuner
 import hydra
@@ -76,17 +76,11 @@ def main(cfg: DictConfig) -> None:
     trainer.fit(model, train_loader, val_loader)
 
     # Save the model and tokenizer directly in cfg.training.output_path
-    logger.info(f"Saving the model and tokenizer to {cfg.training.output_path}")
-    model.model.save_pretrained(cfg.training.output_path)
-    tokenizer.save_pretrained(cfg.training.output_path)
+    logger.info(f"Saving the model and tokenizer to {cfg.model.path}")
+    model.model.save_pretrained(cfg.model.path)
+    tokenizer.save_pretrained(cfg.model.path)
 
-    logger.info(f"Model and tokenizer saved successfully in: {cfg.training.output_path}")
-    logger.info("Files saved:")
-    logger.info(f"{os.path.join(cfg.training.output_path, 'model.safetensors')}: Model weights")
-    logger.info(f"{os.path.join(cfg.training.output_path, 'config.json')}: Model configuration")
-    logger.info(f"{os.path.join(cfg.training.output_path, 'vocab.json')}: Tokenizer vocabulary")
-    logger.info(f"{os.path.join(cfg.training.output_path, 'merges.txt')}: Tokenizer merges")
-
+    logger.info(f"Model and tokenizer saved successfully in: {cfg.model.path}!")
 
 if __name__ == "__main__":
     main()

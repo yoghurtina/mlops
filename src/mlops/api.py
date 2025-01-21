@@ -3,22 +3,27 @@ from pydantic import BaseModel
 from transformers import GPT2Tokenizer, GPT2LMHeadModel
 import torch
 import logging
+from omegaconf import OmegaConf
+import os
 
 app = FastAPI()
 
 logger = logging.getLogger("api")
 logging.basicConfig(level=logging.INFO)
 
-model_name = "distilbert/distilgpt2"
+config_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../configs"))
+config = OmegaConf.load(os.path.join(config_dir, "config.yaml"))
+
+model_name = config.model.name
 tokenizer = None
 model = None
 
 @app.on_event("startup")
 async def load_model():
     global tokenizer, model
-    tokenizer = GPT2Tokenizer.from_pretrained(model_name)
+    tokenizer = GPT2Tokenizer.from_pretrained(config.model.path)
     tokenizer.pad_token = tokenizer.eos_token
-    model = GPT2LMHeadModel.from_pretrained(model_name)
+    model = GPT2LMHeadModel.from_pretrained(config.model.path)
     model.eval()
     logger.info("Model and tokenizer loaded successfully.")
 

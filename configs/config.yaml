@@ -2,6 +2,7 @@ model:
   name: "distilbert/distilgpt2"
   learning_rate: 5e-5
   warmup_steps: 500
+  path: "models"
 
 data:
   dataset_name: "wikitext"
