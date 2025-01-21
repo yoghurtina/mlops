@@ -12,10 +12,12 @@ env:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    env:
+      GCP_KEY: '${{ secrets.GCP_KEY }}'
 
     strategy:
       matrix:
-        service: [mlops-train]
+        service: [train]
 
     steps:
       - name: Checkout Code
@@ -31,18 +33,18 @@ jobs:
 
       - name: Log in to GCP Artifact Registry
         run: |
-          echo "${{ secrets.GCP_KEY }}" | docker login -u _json_key --password-stdin https://${{ env.GAR_REGISTRY }}
+          printf "%s" "${GCP_KEY}" | docker login -u _json_key --password-stdin https://${{ env.GAR_REGISTRY }}
 
       - name: Log in to GCP Container Registry
         run: |
-          echo "${{ secrets.GCP_KEY }}" | docker login -u _json_key --password-stdin https://${{ env.GCR_REGISTRY }}
+          printf "%s" "${GCP_KEY}" | docker login -u _json_key --password-stdin https://${{ env.GCR_REGISTRY }}
 
       - name: Build and Push to GCR
         run: |
-          docker build -t ${{ env.GCR_REGISTRY }}/${{ secrets.GCP_PROJECT_ID }}/${{ matrix.service }}:latest .
-          docker push ${{ env.GCR_REGISTRY }}/${{ secrets.GCP_PROJECT_ID }}/${{ matrix.service }}:latest
+          docker build -t ${{ env.GCR_REGISTRY }}/${{ secrets.GCP_PROJECT_ID }}/mlops-${{ matrix.service }}:latest -f dockerfiles/${{ matrix.service }}.dockerfile
+          docker push ${{ env.GCR_REGISTRY }}/${{ secrets.GCP_PROJECT_ID }}/mlops-${{ matrix.service }}:latest
 
       - name: Build and Push to GAR
         run: |
-          docker build -t ${{ env.GAR_REGISTRY }}/${{ secrets.GCP_PROJECT_ID }}/mlops-docker-repo/${{ matrix.service }}:latest .
-          docker push ${{ env.GAR_REGISTRY }}/${{ secrets.GCP_PROJECT_ID }}/mlops-docker-repo/${{ matrix.service }}:latest
+          docker build -t ${{ env.GAR_REGISTRY }}/${{ secrets.GCP_PROJECT_ID }}/mlops-docker-repo/mlops-${{ matrix.service }}:latest -f dockerfiles/${{ matrix.service }}.dockerfile
+          docker push ${{ env.GAR_REGISTRY }}/${{ secrets.GCP_PROJECT_ID }}/mlops-docker-repo/mlops-${{ matrix.service }}:latest
