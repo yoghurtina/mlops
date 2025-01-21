@@ -41,10 +41,10 @@ jobs:
 
       - name: Build and Push to GCR
         run: |
-          docker build -t ${{ env.GCR_REGISTRY }}/${{ secrets.GCP_PROJECT_ID }}/mlops-${{ matrix.service }}:latest -f dockerfiles/${{ matrix.service }}.dockerfile
+          docker build -t ${{ env.GCR_REGISTRY }}/${{ secrets.GCP_PROJECT_ID }}/mlops-${{ matrix.service }}:latest -f dockerfiles/${{ matrix.service }}.dockerfile .
           docker push ${{ env.GCR_REGISTRY }}/${{ secrets.GCP_PROJECT_ID }}/mlops-${{ matrix.service }}:latest
 
       - name: Build and Push to GAR
         run: |
-          docker build -t ${{ env.GAR_REGISTRY }}/${{ secrets.GCP_PROJECT_ID }}/mlops-docker-repo/mlops-${{ matrix.service }}:latest -f dockerfiles/${{ matrix.service }}.dockerfile
+          docker build -t ${{ env.GAR_REGISTRY }}/${{ secrets.GCP_PROJECT_ID }}/mlops-docker-repo/mlops-${{ matrix.service }}:latest -f dockerfiles/${{ matrix.service }}.dockerfile .
           docker push ${{ env.GAR_REGISTRY }}/${{ secrets.GCP_PROJECT_ID }}/mlops-docker-repo/mlops-${{ matrix.service }}:latest
