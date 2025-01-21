@@ -47,6 +47,11 @@ def test(ctx: Context) -> None:
     ctx.run("coverage report -m", echo=True, pty=not WINDOWS)
 
 @task
+def serve(ctx: Context) -> None:
+    """Serve API."""
+    ctx.run(f"python -m mlops.api", echo=True, pty=not WINDOWS)
+
+@task
 def docker_build(ctx: Context, progress: str = "plain") -> None:
     """Build docker images."""
     ctx.run(
