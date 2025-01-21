@@ -1,4 +1,5 @@
 import pytorch_lightning as pl
+from pytorch_lightning.callbacks import ModelCheckpoint
 from transformers import GPT2Tokenizer
 from mlops.data import get_dataloader
 from mlops.model import GPT2FineTuner
@@ -38,6 +39,13 @@ def main(cfg: DictConfig) -> None:
         limit=cfg.data.limit,
     )
     
+    checkpoint_callback = ModelCheckpoint(
+        dirpath=cfg.training.output_path,  # Directory to save the model
+        filename="{epoch}-{val_loss:.2f}",  # Filename format with metrics
+        save_top_k=1,  # Save only the best model (set to -1 to save all)
+        monitor="val_loss",  # Metric to monitor for saving the best model
+        mode="min",  # Save the model with the minimum validation loss
+    )
 
     # Initialize model
     model = GPT2FineTuner(
@@ -56,6 +64,7 @@ def main(cfg: DictConfig) -> None:
         accumulate_grad_batches=cfg.training.accumulate_grad_batches,
         limit_train_batches=cfg.training.limit_train_batches,
         limit_val_batches=cfg.training.limit_val_batches,
+        callbacks=[checkpoint_callback],
     )
 
     # Start training
