@@ -1,0 +1,48 @@
+name: Build and Push Docker to GCP
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  GCR_REGISTRY: gcr.io
+  GAR_REGISTRY: us-central1-docker.pkg.dev
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        service: [mlops-train, mlops-api, mlops-evaluate]
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_KEY }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GCP Artifact Registry
+        run: |
+          echo "${{ secrets.GCP_KEY }}" | docker login -u _json_key --password-stdin https://${{ env.GAR_REGISTRY }}
+
+      - name: Log in to GCP Container Registry
+        run: |
+          echo "${{ secrets.GCP_KEY }}" | docker login -u _json_key --password-stdin https://${{ env.GCR_REGISTRY }}
+
+      - name: Build and Push to GCR
+        run: |
+          docker build -t ${{ env.GCR_REGISTRY }}/${{ secrets.GCP_PROJECT_ID }}/${{ matrix.service }}:latest .
+          docker push ${{ env.GCR_REGISTRY }}/${{ secrets.GCP_PROJECT_ID }}/${{ matrix.service }}:latest
+
+      - name: Build and Push to GAR
+        run: |
+          docker build -t ${{ env.GAR_REGISTRY }}/${{ secrets.GCP_PROJECT_ID }}/mlops-docker-repo/${{ matrix.service }}:latest .
+          docker push ${{ env.GAR_REGISTRY }}/${{ secrets.GCP_PROJECT_ID }}/mlops-docker-repo/${{ matrix.service }}:latest
