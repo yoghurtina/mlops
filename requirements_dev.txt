@@ -20,3 +20,7 @@ docker
 
 httpx
 pytest-cov
+
+# version control
+dvc
+dvc-gs
