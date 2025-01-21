@@ -179,3 +179,8 @@ If you have GPU support, run the containers with GPU access:
 Created using [mlops_template](https://github.com/SkafteNicki/mlops_template),
 a [cookiecutter template](https://github.com/cookiecutter/cookiecutter) for getting
 started with Machine Learning Operations (MLOps).
+
+# Notes
+
+The model checkpoint also inlcudes the optimizer state, allowing for resuming training from the last checkpoint.
+This also means that the file size will be larger than just the model weights.
