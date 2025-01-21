@@ -1,6 +1,60 @@
 outs:
-- md5: 955d1ebc5d1ddabd7bf51f4fdb8f56d3.dir
-  size: 329115598
-  nfiles: 8
-  hash: md5
+- hash: md5
   path: models
+  files:
+  - relpath: .gitkeep
+    md5: d41d8cd98f00b204e9800998ecf8427e
+    size: 0
+    cloud:
+      remote_storage:
+        etag: 08bd81c6d7b7878b031001
+        version_id: '1737483837604029'
+  - relpath: config.json
+    md5: 3ee817bcbebb60274a02c4433a14ed7e
+    size: 1021
+    cloud:
+      remote_storage:
+        etag: 088f91c6d7b7878b031001
+        version_id: '1737483837606031'
+  - relpath: generation_config.json
+    md5: 294ae7f5b3d352bd2e77055637ddab82
+    size: 119
+    cloud:
+      remote_storage:
+        etag: 08fbd4b7d7b7878b031001
+        version_id: '1737483837368955'
+  - relpath: merges.txt
+    md5: 75a37753dd7a28a2c5df80c28bf06e4e
+    size: 456318
+    cloud:
+      remote_storage:
+        etag: 08bfefd0d7b7878b031001
+        version_id: '1737483837781951'
+  - relpath: model.safetensors
+    md5: 683867a9aa8d022c02b8ad6ecc69ed11
+    size: 327657928
+    cloud:
+      remote_storage:
+        etag: 08b6bddd82b8878b031001
+        version_id: '1737483928166070'
+  - relpath: special_tokens_map.json
+    md5: b6e29b0337a01f3469aadbf2b984452f
+    size: 470
+    cloud:
+      remote_storage:
+        etag: 08d0eac6d7b7878b031001
+        version_id: '1737483837617488'
+  - relpath: tokenizer_config.json
+    md5: 6c7ed970918043c54c5f19a55795db2c
+    size: 556
+    cloud:
+      remote_storage:
+        etag: 08e6fac6d7b7878b031001
+        version_id: '1737483837619558'
+  - relpath: vocab.json
+    md5: bfe120ed87c2489c38daf0ebcf0bd64b
+    size: 999186
+    cloud:
+      remote_storage:
+        etag: 08c08ff8d7b7878b031001
+        version_id: '1737483838425024'
