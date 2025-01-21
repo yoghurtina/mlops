@@ -75,10 +75,6 @@ def main(cfg: DictConfig) -> None:
     # Start training
     trainer.fit(model, train_loader, val_loader)
 
-    # Save the best model in Hugging Face's format
-    model_path = checkpoint_callback.model_path
-    logger.info(f"Best model checkpoint saved at: {model_path}")
-    
     # Save the model and tokenizer directly in cfg.training.output_path
     logger.info(f"Saving the model and tokenizer to {cfg.training.output_path}")
     model.model.save_pretrained(cfg.training.output_path)
@@ -86,10 +82,10 @@ def main(cfg: DictConfig) -> None:
 
     logger.info(f"Model and tokenizer saved successfully in: {cfg.training.output_path}")
     logger.info("Files saved:")
-    logger.info(f"- {os.path.join(cfg.training.output_path, 'model.safetensors')}: Model weights")
-    logger.info(f"- {os.path.join(cfg.training.output_path, 'config.json')}: Model configuration")
-    logger.info(f"- {os.path.join(cfg.training.output_path, 'vocab.json')}: Tokenizer vocabulary")
-    logger.info(f"- {os.path.join(cfg.training.output_path, 'merges.txt')}: Tokenizer merges")
+    logger.info(f"{os.path.join(cfg.training.output_path, 'model.safetensors')}: Model weights")
+    logger.info(f"{os.path.join(cfg.training.output_path, 'config.json')}: Model configuration")
+    logger.info(f"{os.path.join(cfg.training.output_path, 'vocab.json')}: Tokenizer vocabulary")
+    logger.info(f"{os.path.join(cfg.training.output_path, 'merges.txt')}: Tokenizer merges")
 
 
 if __name__ == "__main__":
