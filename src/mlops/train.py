@@ -1,12 +1,13 @@
-import pytorch_lightning as pl
-from pytorch_lightning.callbacks import ModelCheckpoint
-from transformers import GPT2Tokenizer
 from mlops.data import get_dataloader
 from mlops.model import GPT2FineTuner
-import hydra
 from omegaconf import DictConfig
-import os
+from pytorch_lightning.callbacks import ModelCheckpoint
+from transformers import GPT2Tokenizer
+import hydra
 import logging
+from mlops.util import save_to_gcs
+import os
+import pytorch_lightning as pl
 
 logger = logging.getLogger("train")
 logging.basicConfig(level=logging.INFO)
@@ -74,12 +75,32 @@ def main(cfg: DictConfig) -> None:
 
     # Start training
     trainer.fit(model, train_loader, val_loader)
+ 
+    # Save the model locally first
+    local_model_path = "outputs/model"
+    os.makedirs(local_model_path, exist_ok=True)
+    logger.info(f"Saving the model and tokenizer locally at: {local_model_path}")
+    model.model.save_pretrained(local_model_path)
+    tokenizer.save_pretrained(local_model_path)
 
-    # Save the model and tokenizer directly in cfg.training.output_path
     logger.info(f"Saving the model and tokenizer to {cfg.model.path}")
-    model.model.save_pretrained(cfg.model.path)
-    tokenizer.save_pretrained(cfg.model.path)
 
+    if cfg.model.path.startswith("gs://"):
+        for file in os.listdir(local_model_path):
+            save_to_gcs(
+                local_path=os.path.join(local_model_path, file),
+                gcs_path=f"{cfg.model.path}/{file}"
+            )
+    else:
+        # Save to local directory specified in the config
+        os.makedirs(cfg.model.path, exist_ok=True)
+        for file in os.listdir(local_model_path):
+            os.rename(
+                os.path.join(local_model_path, file),
+                os.path.join(cfg.model.path, file)
+            )
+
+    
     logger.info(f"Model and tokenizer saved successfully in: {cfg.model.path}!")
 
 if __name__ == "__main__":
