@@ -3,4 +3,4 @@ workerPoolSpecs:
         machineType: e2-standard-4
     replicaCount: 1
     containerSpec:
-        imageUri: ghcr.io/yoghurtina/mlops-train:latest
+        imageUri: us-central1-docker.pkg.dev/mlops-448421/mlops-docker-repo/mlops-train:latest
