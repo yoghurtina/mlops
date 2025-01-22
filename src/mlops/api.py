@@ -13,8 +13,11 @@ app = FastAPI()
 logger = logging.getLogger("api")
 logging.basicConfig(level=logging.INFO)
 
-config_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../configs"))
-config = OmegaConf.load(os.path.join(config_dir, "config.yaml"))
+try:
+    config_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../configs"))
+    config = OmegaConf.load(os.path.join(config_dir, "config.yaml"))
+except:
+    config = OmegaConf.load("/configs/config.yaml")
 
 model_name = config.model.name
 tokenizer = None
