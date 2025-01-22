@@ -81,7 +81,10 @@ async def generate_text(request: TextGenerationRequest):
         logger.error(f"Error during text generation: {str(e)}")
         return {"error": str(e)}, 500
 
-if __name__ == "__main__":
+def main():
     import uvicorn
     port = int(os.getenv("PORT", 8080))
     uvicorn.run(app, host="0.0.0.0", port=port)
+
+if __name__ == "__main__":
+    main()
