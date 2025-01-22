@@ -38,3 +38,4 @@ base-image = "python:3.11-slim"  # Base image for the Dockerfile
 working-directory = "/app"       # Default working directory in the container
 dockerfile-train = "dockerfiles/train.dockerfile"  # Dockerfile for training
 dockerfile-evaluate = "dockerfiles/evaluate.dockerfile"  # Dockerfile for evaluation
+dockerfile-api = "dockerfiles/api.dockerfile"  # Dockerfile for the API

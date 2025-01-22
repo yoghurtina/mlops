@@ -122,6 +122,13 @@ either directly through the CLI or via Docker.
 
 2. **Evaluate the model**:  
    `docker run --rm mlops-evaluate`
+   
+#### Deployment
+
+To deploy on GCP, you can use the following command:
+```bash
+gcloud run deploy mlops-api --image us-central1-docker.pkg.dev/mlops-448421/mlops-docker-repo/mlops-api --platform managed --region us-central1 --allow-unauthenticated
+```
 
 #### Using GPUs
 
