@@ -23,6 +23,13 @@ jobs:
       packages: write
       id-token: write
 
+    strategy:
+      matrix:
+        image: 
+          - { name: "train", dockerfile: "dockerfiles/train.dockerfile" }
+          - { name: "api", dockerfile: "dockerfiles/api.dockerfile" }
+          - { name: "evaluate", dockerfile: "dockerfiles/evaluate.dockerfile" }
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -44,43 +51,18 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Build, tag, and push the training image
-      - name: Build and push training image
-        id: build-train
+      # Build, tag, and optionally push the image
+      - name: Build and push image
+        id: build-push
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
         with:
           context: .
-          file: dockerfiles/train.dockerfile
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-train:latest
+          file: ${{ matrix.image.dockerfile }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.image.name }}:latest
           push: ${{ github.event_name != 'pull_request' }}
 
-      # Build, tag, and push the API image
-      - name: Build and push API image
-        id: build-api
-        uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
-        with:
-          context: .
-          file: dockerfiles/api.dockerfile
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-api:latest
-          push: ${{ github.event_name != 'pull_request' }}
-
-      # Build, tag, and push the evaluation image
-      - name: Build and push evaluation image
-        id: build-evaluate
-        uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
-        with:
-          context: .
-          file: dockerfiles/evaluate.dockerfile
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-evaluate:latest
-          push: ${{ github.event_name != 'pull_request' }}
-
-      - name: Sign the published Docker images
+      - name: Sign the published Docker image
         if: ${{ github.event_name != 'pull_request' }}
         env:
-          TRAIN_TAG: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-train:latest
-          API_TAG: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-api:latest
-          EVALUATE_TAG: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-evaluate:latest
-        run: |
-          cosign sign --yes ${TRAIN_TAG}
-          cosign sign --yes ${API_TAG}
-          cosign sign --yes ${EVALUATE_TAG}
+          IMAGE_TAG: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.image.name }}:latest
+        run: cosign sign --yes ${IMAGE_TAG}
