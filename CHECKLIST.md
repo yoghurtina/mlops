@@ -53,10 +53,10 @@ the end indicates what module the bullet point is related to.
 - [ ] Deploy to the cloud a drift detection API (M27)
 - [ ] Instrument your API with a couple of system metrics (M28)
 - [ ] Setup cloud monitoring of your instrumented application (M28)
-- [ ] Create one or more alert systems in GCP to alert you if your app is not behaving correctly (M28)
+- [x] Create one or more alert systems in GCP to alert you if your app is not behaving correctly (M28)
 - [ ] If applicable, optimize the performance of your data loading using distributed data loading (M29)
 - [ ] If applicable, optimize the performance of your training pipeline by using distributed training (M30)
-- [ ] Play around with quantization, compilation and pruning for you trained models to increase inference speed (M31)
+- [x] Play around with quantization, compilation and pruning for you trained models to increase inference speed (M31)
 
 ## Extra
 - [ ] Write some documentation for your application (M32)
