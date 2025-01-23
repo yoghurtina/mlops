@@ -23,5 +23,10 @@ training:
   limit_val_batches: 1
   output_path: "outputs"
 
+pruning:
+  amount: 0.9  # Percentage of weights to prune
+quantization:
+  dtype: "torch.qint8"  # Data type for quantization
+
 logging:
   log_every_n_steps: 1
