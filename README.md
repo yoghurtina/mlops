@@ -191,3 +191,7 @@ started with Machine Learning Operations (MLOps).
 
 The model checkpoint also inlcudes the optimizer state, allowing for resuming training from the last checkpoint.
 This also means that the file size will be larger than just the model weights.
+
+gsutil ls -la gs://mlops_team13_bucket/models
+gcloud ai custom-jobs create --region=us-central1 --config=jobs/train.yml
+gcloud run deploy mlops-api --image us-central1-docker.pkg.dev/mlops-448421/mlops-docker-repo/mlops-api --platform managed --region us-central1 --allow-unauthenticated
