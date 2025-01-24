@@ -6,7 +6,6 @@ import logging
 import hydra
 from omegaconf import DictConfig
 from transformers import GPT2LMHeadModel
-from mlops.model import GPT2FineTuner
 from safetensors.torch import save_file
 
 torch.backends.quantized.engine = 'qnnpack'  # For ARM devices

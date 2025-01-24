@@ -54,7 +54,7 @@ def serve(ctx: Context) -> None:
 @task
 def quantize(ctx: Context) -> None:
     """Quantize model."""
-    ctx.run(f"python -m mlops.quantize", echo=True, pty=not WINDOWS)
+    ctx.run("python -m mlops.quantize", echo=True, pty=not WINDOWS)
 
 @task
 def docker_build(ctx: Context, progress: str = "plain") -> None:
