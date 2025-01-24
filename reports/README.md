@@ -118,7 +118,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 1 fill here ---
+13
 
 ### Question 2
 > **Enter the study number for each member in the group**
@@ -129,7 +129,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 2 fill here ---
+s232462, s233095
 
 ### Question 3
 > **A requirement to the project is that you include a third-party package not covered in the course. What framework**
@@ -143,7 +143,23 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 3 fill here ---
+We used the third-party framework `Transformers` by Hugging Face in our project.
+This library provides state-of-the-art
+pre-trained models and tools for natural language processing tasks, such as
+tokenization and text generation.
+
+Specifically, we used the `GPT2LMHeadModel` and `GPT2Tokenizer` modules to
+fine-tune a pre-trained GPT-2 model for our text generation task. The
+library enabled us to quickly load pre-trained weights, fine-tune
+the model with minimal effort.
+
+Since this library provides yet another abstraction over common building blocks
+of modern NLP models, it significantly reduced the complexity of the model
+architecture and the tokenization processe, allowing us to focus on building and
+evaluating our pipeline. Its versatility and extensive documentation
+made it an excellent choice for enhancing the project while adhering to modern
+NLP best practices. This framework played a key role in the successful
+completion of the project.
 
 ## Coding environment
 
@@ -163,7 +179,21 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 4 fill here ---
+We used Conda for managing our dependencies in the project.
+Dependencies are explicitly listed in a `requirements.txt` file for runtime
+dependencies and in a `requirements-dev.txt` file for development
+dependencies.
+We also leveraged the `invoke` library to streamline the setup process by
+defining tasks for creating the environment, installing dependencies, and
+setting up development tools.
+
+To set up an exact copy of our environment, a new team member would need to follow these steps:
+	1.	Create a virtual environment using Conda:
+Run the command `invoke create-environment` to create a new environment with the correct Python version and necessary tools.
+	2.	Install runtime dependencies:
+Run `invoke requirements` to install all required libraries from the `requirements.txt file`.
+	3.	Install development dependencies:
+Finally, run `invoke dev-requirements` to install development tools like linters, formatters, test runners, and version control tools (e.g., `dvc`).
 
 ### Question 5
 
@@ -243,7 +273,22 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 9 fill here ---
+We didn’t use branches or pull requests in our project. Instead, we adopted a
+rebase-based workflow where team members externally coordinated tasks and held
+'locks" on specific parts of the codebase to avoid conflicts. Each contributor
+made sure their work aligned with the latest version of the main branch by
+frequently rebasing their changes. This allowed for fast iteration, which was
+well-suited for our three-week project
+timeline.
+
+While branches and pull requests are beneficial for managing long-running or
+complex projects, we felt they might slow down agile development in a
+short-term project like ours, where quick feedback and collaboration were
+prioritized. Branches could introduce unnecessary overhead for small, rapidly
+evolving tasks. Version drift is a common failure mode is such cases.
+However, for larger projects, branches and pull requests would enhance version
+control by providing better isolation of features, thorough review processes,
+and an audit trail of changes
 
 ### Question 10
 
@@ -275,7 +320,17 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 11 fill here ---
+We used DVC (Data Version Control) in our project to manage and version control
+the model weights after training. With DVC, we were able to
+track changes to our model weights and ensure reproducibility
+across different stages of development. We configured Google Cloud Storage as
+the DVC backend, which allows us to store and retrieve large files like model
+weights without overloading our Git repository.
+
+DVC helped by providing a structured way to manage
+binary artifacts, making it easy to switch between different versions of the
+trained model. It also ensured team members could access
+the correct version of the model without confusion, improving collaboration.
 
 ## Running code and tracking experiments
 
