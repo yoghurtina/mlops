@@ -388,11 +388,40 @@ the correct version of the model without confusion, improving collaboration.
 >
 > Answer:
 
-We have used Hydra to configure our project. 
-It allows us to load hyperparameters and settings from a `configs/` folder 
-containing `YAML` file for different stages, such as model training, evaluation, and prediction. 
-These configuration files are organized into subfolders, ensuring clean separation of concerns. 
-Once the config files are defined, the model and scripts automatically retrieve all necessary parameters from them.
+We configured our experiments using `yaml` config files for structured and
+reusable parameter management. This allowed us to define model, data, training,
+and other pipeline-specific configurations in a single place. For example, our
+`config.yaml` included parameters such as:
+
+```yaml
+model:
+  name: "distilbert/distilgpt2"
+  learning_rate: 5e-5
+  warmup_steps: 500
+  path: "gs://mlops_team13_bucket/models"
+
+data:
+  dataset_name: "wikitext"
+  config_name: "wikitext-2-raw-v1"
+  batch_size: 4
+  max_length: 512
+  subset_size: 100
+
+training:
+  max_epochs: 3
+  devices: 1
+  precision: 16
+  output_path: "outputs/"
+```
+
+To run an experiment, we used Hydra to load and override configuration values
+dynamically. For instance, the command:
+```bash
+python train.py training.max_epochs=5 model.learning_rate=1e-4
+```
+overrides the default max_epochs and learning_rate while executing the training
+script. This approach ensured flexibility and reproducibility in our
+experiments
 
 ### Question 13
 
@@ -407,17 +436,26 @@ Once the config files are defined, the model and scripts automatically retrieve 
 >
 > Answer:
 
-As stated earlier, we used Hydra to manage hyperparameters through configuration files. 
-Each time an experiment was run, the associated hyperparameters were saved in a timestamped folder, 
-allowing us to track the configuration used for that specific experiment. 
-To ensure determinism, we need to specify a random seed in PyTorch and set the random_state parameter 
-in specific functions across runs. This ensures consistent results.
+We ensured the reproducibility of our experiments by leveraging **config
+files** and systematic logging. Each experiment was defined using a structured
+`config.yaml` file, which included all parameters such as model name, learning
+rate, dataset paths, and training settings. These configurations were
+version-controlled, and any changes made during experiments were tracked to
+prevent loss of information.
 
-We validated the reproducibility of our experiments by running the model training multiple times 
-with the same hyperparameters and verifying that the resulting weights and biases were identical. 
-This confirmed that our setup was fully deterministic. 
-To reproduce a specific experiment, one simply needs to use the hyperparameters stored 
-in the corresponding configuration file and run the training script.
+Whenever an experiment was run, we logged the complete configuration alongside
+the experiment results, such as metrics, checkpoints, and outputs, using both
+logging and additional tools like DVC for versioning model
+weights. We also stored experiment artifacts, including models and logs, in
+Google Cloud Storage for centralized access.
+
+To reproduce an experiment, a team member only needed to retrieve the logged
+configuration and run the same script with the specified parameters. For
+example:
+
+```bash
+python train.py hydra.run.dir=/path/to/logs/exp1
+```
 
 ### Question 14
 
@@ -434,7 +472,38 @@ in the corresponding configuration file and run the training script.
 >
 > Answer:
 
---- question 14 fill here ---
+
+![Train and Validation](figures/train-val.png)
+
+In this project, we focused on tracking key metrics during the fine-tuning
+of the GPT-2 model using PyTorch Lightning. While we did not use Weights &
+Biases (W&B), we leveraged PyTorch Lightning’s in-built logging capabilities
+and CSVLogger to record and visualize training progress.
+
+Metrics Tracked
+1.	Training Loss (per epoch and step):
+    Importance: Training loss indicates how well the model is learning from the
+training data. Monitoring this metric helps assess if the model is effectively
+minimizing the loss and identifies potential overfitting or underfitting
+trends.
+2.	Validation Loss (per epoch):
+    Importance: Validation loss reflects the model’s performance on unseen
+validation data. The evaluation includes a measure of perplexity, which
+indicates how well the model predicts the next token in the sequence.
+
+Observations:
+As shown in the provided plot, training and validation losses consistently
+decrease over the 20 epochs, reflecting improved performance.
+Validation loss remains close to training loss throughout,
+indicating that the model is not overfitting significantly.
+The slight
+variations between epoch-based and step-based training loss demonstrate
+fine-grained loss fluctuations during the training process.
+
+Tools and Techniques:
+* CSVLogger: Captured all training and validation metrics for easy plotting and analysis.
+* Matplotlib: Used to visualize the loss trends over epochs for better interpretability.
+* ModelCheckpoint Callback: Saves the best model based on validation loss, enabling reproducibility and further evaluation.
 
 ### Question 15
 
