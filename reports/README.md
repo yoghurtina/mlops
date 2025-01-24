@@ -830,7 +830,18 @@ All alerts are sent to a common e-mail address.
 >
 > Answer:
 
---- question 27 fill here ---
+Ioanna (s233095) used 5.53 credits, and group member Evangelos (s232462) used 5.01 credits, 
+for a total of 10.54 credits spent during the project. 
+The most expensive service was fine-tuning the GPT-2 model on GCP, 
+as it required high-performance GPUs to process our dataset effectively. 
+To minimize unnecessary costs, we made sure to turn off instances and services when not in use, 
+ensuring that we only paid for the resources we actively needed.
+
+Working in the cloud was a great experience overall. 
+It allowed us to access powerful resources on demand, making tasks like model training, deployment, and monitoring much easier. 
+The scalability and flexibility of the cloud enabled us to experiment with various configurations and ensure reproducibility. 
+However, it also required careful monitoring.
+Overall, the benefits of cloud computing in terms of speed and scalability far outweighed the challenges.
 
 ### Question 28
 
