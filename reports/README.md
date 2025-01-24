@@ -689,7 +689,19 @@ For building our containers, we used GitHub Actions, which built the images and 
 >
 > Answer:
 
---- question 23 fill here ---
+We managed to train our model in the cloud using Vertex AI.
+To achieve this, we defined a custom training job configuration in a `train.yml`
+file. The job specified the use of a e2-standard-4 machine type with one
+replica, and the training container was built and hosted at
+`us-central1-docker.pkg.dev/mlops-448421/mlops-docker-repo/mlops-train:latest`.
+
+The job was executed by running the following command:
+```bash
+gcloud ai custom-jobs create --region=us-central1 --config=jobs/train.yml.
+```
+We chose Vertex AI for its integration with GCP services, support for custom
+Docker images, and scalable infrastructure, which allowed us to focus on model
+development rather than infrastructure management.
 
 ### Question 24
 
@@ -705,7 +717,33 @@ For building our containers, we used GitHub Actions, which built the images and 
 >
 > Answer:
 
---- question 24 fill here ---
+We successfully deployed our API both locally and in the cloud using FastAPI.
+To wrap our model, we created an application that loads the pre-trained GPT-2
+model from a path specified from our config file (either local or Google Cloud Storage).
+The API
+exposes an endpoint `/generate` to generate text based on a prompt provided by
+the user.
+
+Deployment Details:
+1.	Local Deployment:
+    * We started the service locally by running `invoke serve`,
+    which served the application on http://127.0.0.1:8080.
+2.	Cloud Deployment:
+    * The API was containerized using Docker and deployed to a cloud platform
+    (e.g., Google Cloud Run). The Docker image was built and pushed to a
+    container registry, and the service was exposed via an HTTP endpoint.
+
+To invoke the deployed service, a user can send a POST request with a JSON
+payload containing the prompt to the API endpoint. For example:
+
+```bash
+curl -X POST \
+     -H "Content-Type: application/json" \
+     -d '{"prompt": "Once upon a time", "max_length": 50}' \
+     $URL/generate
+```
+
+An example of the deployed API URL (currently inactive) is `https://mlops-api-752599873459.us-central1.run.app`.
 
 ### Question 25
 
