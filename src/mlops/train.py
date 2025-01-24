@@ -2,12 +2,15 @@ from mlops.data import get_dataloader
 from mlops.model import GPT2FineTuner
 from omegaconf import DictConfig
 from pytorch_lightning.callbacks import ModelCheckpoint
+from pytorch_lightning.loggers import CSVLogger
 from transformers import GPT2Tokenizer
 import hydra
 import logging
 from mlops.util import save_to_gcs
 import os
 import pytorch_lightning as pl
+import matplotlib.pyplot as plt
+import pandas as pd
 
 logger = logging.getLogger("train")
 logging.basicConfig(level=logging.INFO)
@@ -46,12 +49,16 @@ def main(cfg: DictConfig) -> None:
     
     # Configure checkpoint callback
     checkpoint_callback = ModelCheckpoint(
-        dirpath=cfg.training.output_path,  # Directory to save the model
-        filename="model-{epoch:02d}-{val_loss:.2f}",  # Unique filename with metrics
-        save_top_k=1,  # Save only the best model
-        monitor="val_loss",  # Metric to monitor for saving the best model
-        mode="min",  # Save the model with the minimum validation loss
+        dirpath=cfg.training.output_path,
+        filename="model-{epoch:02d}-{val_loss:.2f}",
+        save_top_k=1,
+        monitor="val_loss",
+        mode="min",
     )
+
+    # Add CSVLogger to log metrics to a CSV file
+    logger.info("Initializing CSVLogger for logging metrics.")
+    csv_logger = CSVLogger(save_dir=cfg.training.output_path, name="training_logs")
 
     # Initialize model
     model = GPT2FineTuner(
@@ -71,12 +78,13 @@ def main(cfg: DictConfig) -> None:
         limit_train_batches=cfg.training.limit_train_batches,
         limit_val_batches=cfg.training.limit_val_batches,
         callbacks=[checkpoint_callback],
+        logger=csv_logger,
     )
 
     # Start training
     trainer.fit(model, train_loader, val_loader)
- 
-    # Save the model locally first
+
+    # Save the model locally
     local_model_path = "outputs/model"
     os.makedirs(local_model_path, exist_ok=True)
     logger.info(f"Saving the model and tokenizer locally at: {local_model_path}")
@@ -92,7 +100,6 @@ def main(cfg: DictConfig) -> None:
                 gcs_path=f"{cfg.model.path}/{file}"
             )
     else:
-        # Save to local directory specified in the config
         os.makedirs(cfg.model.path, exist_ok=True)
         for file in os.listdir(local_model_path):
             os.rename(
@@ -100,8 +107,25 @@ def main(cfg: DictConfig) -> None:
                 os.path.join(cfg.model.path, file)
             )
 
-    
     logger.info(f"Model and tokenizer saved successfully in: {cfg.model.path}!")
+
+    # Plot training and validation loss
+    logger.info("Plotting training and validation loss.")
+    metrics_file = os.path.join(csv_logger.log_dir, "metrics.csv")
+    metrics = pd.read_csv(metrics_file)
+
+    plt.figure(figsize=(10, 6))
+    if "train_loss" in metrics:
+        plt.plot(metrics["train_loss"], label="Train Loss")
+    if "val_loss" in metrics:
+        plt.plot(metrics["val_loss"], label="Validation Loss")
+    plt.xlabel("Epoch")
+    plt.ylabel("Loss")
+    plt.title("Training and Validation Loss")
+    plt.legend()
+    plt.grid()
+    plt.savefig(os.path.join(cfg.training.output_path, "loss_curve.png"))
+    plt.show()
 
 if __name__ == "__main__":
     main()
