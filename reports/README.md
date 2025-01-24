@@ -898,7 +898,36 @@ This would make our project more scalable and resilient for real-world use cases
 >
 > Answer:
 
---- question 29 fill here ---
+![MLOps Architecture](figures/mlops-diagram.jpg)
+
+The starting point of the architecture is the Git Platform, where our source
+code resides. We use version control to manage and track changes to the
+codebase. 
+To build our end to end system, our core frameworks are PyTorch-lightning, Hugging Face Transformers, and FastAPI.
+
+On every code commit and push to the Git repository, GitHub Actions are
+triggered. These actions run automated workflows to provide testing and linting
+feedback. This makes sure code quality in retained and errors are detected early in the
+development cycle.
+
+In Github actions, containerization (using Docker) is initiated.
+This step creates portable and consistent environments for the model and its
+dependencies. The containerized artifacts are stored in a secure Artifact
+Registry for further use.
+
+We version-control the model weights
+managed by Data Version Control (DVC), ensuring reproducibility and enabling
+tracking changes. Training data comes from the Hugging Face datasets library.
+
+Model training is performed in the cloud using Vertex AI, which provides
+scalable infrastructure for training and easy deployment using the `gcloud` CLI.
+
+The trained model, along with its associated metadata, is stored in Cloud
+Storage for ease of access. 
+
+Finally, Google Cloud Compute Engine is used to deploy the FastAPI application
+for inference. The API endpoint is exposed to the internet, allowing users to
+interact with the model for text generation.
 
 ### Question 30
 
