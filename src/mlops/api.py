@@ -16,7 +16,7 @@ logging.basicConfig(level=logging.INFO)
 try:
     config_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../configs"))
     config = OmegaConf.load(os.path.join(config_dir, "config.yaml"))
-except:
+except FileNotFoundError:
     config = OmegaConf.load("/configs/config.yaml")
 
 model_name = config.model.name
