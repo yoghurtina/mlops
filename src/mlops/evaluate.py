@@ -66,7 +66,6 @@ def evaluate_model(
 
 config_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../configs"))
 @hydra.main(version_base=None, config_path=config_dir, config_name="config")
-
 def main(cfg: DictConfig) -> None:
     """
     Main function to evaluate the model using Hydra configuration.
@@ -74,14 +73,6 @@ def main(cfg: DictConfig) -> None:
     Args:
         cfg (DictConfig): Hydra configuration object.
     """
-    # perplexity = evaluate_model(
-    #     model_name=cfg.model.name,  # Use model name from existing config
-    #     dataset_name="wikitext",  # Specify directly or move to config
-    #     config_name="wikitext-2-raw-v1",  # Specify directly or move to config
-    #     split="validation",  # Specify directly or move to config
-    #     max_length=512,  # Specify directly or move to config
-    #     subset_size=100,  # Specify directly or move to config
-    # )
     perplexity = evaluate_model(
         model_name=cfg.model.name,
         dataset_name=cfg.data.dataset_name,
