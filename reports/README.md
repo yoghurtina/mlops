@@ -372,19 +372,16 @@ We have set up continuous integration (CI) with GitHub Actions to ensure the qua
 Our CI pipeline is organized into two separate workflows: 
 one for running tests and linting (CI Pipeline) and another for linting only (Lint-Only Pipeline).
 
-The CI Pipeline is triggered on pushes or pull requests to the main branch. 
-It performs the following tasks: code checkout using `actions/checkout@v3`, 
-Python setup with version 3.11 using `actions/setup-python@v4`, 
-installation of dependencies and tools, linting with Ruff using `invoke lint`, 
-and running all unit tests with `invoke test`.
+The CI Pipeline is triggered on pushes or pull requests to the main branch.
+It performs the following tasks: code checkout using `actions/checkout@v3`, Python setup with version 3.11 using `actions/setup-python@v4`, installation of dependencies and tools, linting with Ruff using invoke lint, and running all unit tests with invoke test.
 
 The Lint-Only Pipeline is a lightweight workflow that focuses solely on linting the codebase using Ruff.
-It runs on the main branch to quickly catch formatting or code quality issues.
+It runs on the main branch to quickly catch formatting or code quality issues and ensures compliance with coding standards.
 
 Key features of our CI setup include using Python 3.11 for compatibility with the latest version, 
-running on `ubuntu-latest` for a consistent runtime environment, 
-caching Python dependencies with pip to speed up subsequent runs, 
-and using `invoke` tasks to simplify and modularize workflows.
+running on ubuntu-latest for a consistent runtime environment, caching Python dependencies with pip to speed up subsequent runs, 
+and using invoke tasks to simplify and modularize workflows. 
+These workflows ensure code reliability by automating repetitive tasks and allowing developers to focus on writing quality code.
 
 An example of our GitHub Actions workflow can be found [here](https://github.com/yoghurtina/mlops/actions/runs/12943237359).
 
@@ -431,14 +428,13 @@ training:
   output_path: "outputs/"
 ```
 
-To run an experiment, we used Hydra to load and override configuration values
+We used Hydra to load and override configuration values
 dynamically. For instance, the command:
 ```bash
 python train.py training.max_epochs=5 model.learning_rate=1e-4
 ```
 overrides the default max_epochs and learning_rate while executing the training
-script. This approach ensured flexibility and reproducibility in our
-experiments
+script.
 
 ### Question 13
 
@@ -537,7 +533,8 @@ Tools and Techniques:
 
 For our project, we used Docker to containerize the training and evaluation workflows for the GPT-2 model, 
 ensuring consistency and reproducibility across different environments. 
-The Docker setup allows running experiments seamlessly, either through the CLI or within Docker containers.
+The Docker setup allows running experiments seamlessly, 
+either through the CLI or within Docker containers, making it simple to deploy and scale.
 
 - To build a docker image run:
 ```bash
@@ -553,6 +550,8 @@ To fine-tune and evaluate the model:
    docker run --rm mlops-train
    docker run --rm mlops-evaluate
 ```
+This approach eliminates environment inconsistencies 
+and simplifies collaboration by ensuring everyone works with identical setups.
 
 ### Question 16
 
@@ -686,20 +685,20 @@ For building our containers, we used GitHub Actions, which built the images and 
 >
 > Answer:
 
-We managed to train our model in the cloud using Vertex AI.
-To achieve this, we defined a custom training job configuration in a `train.yml`
-file. The job specified the use of a e2-standard-4 machine type with one
-replica, and the training container was built and hosted at
+We managed to train our model in the cloud using Vertex AI. 
+To achieve this, we defined a custom training job configuration in a `train.yml` file. 
+The job specified the use of a e2-standard-4 machine type with one replica, 
+and the training container was built and hosted at:
 `us-central1-docker.pkg.dev/mlops-448421/mlops-docker-repo/mlops-train:latest`.
 
 The job was executed by running the following command:
 ```bash
 gcloud ai custom-jobs create --region=us-central1 --config=jobs/train.yml.
 ```
-We chose Vertex AI for its integration with GCP services, support for custom
-Docker images, and scalable infrastructure, which allowed us to focus on model
-development rather than infrastructure management.
-
+We chose Vertex AI for its seamless integration with GCP services, 
+support for custom Docker images, and scalable infrastructure, 
+which allowed us to focus on efficient model development 
+rather than dealing with infrastructure management complexities.
 
 ## Deployment
 
@@ -912,18 +911,28 @@ This would make our project more scalable and resilient for real-world use cases
 > *The biggest challenges in the project was using ... tool to do ... . The reason for this was ...*
 >
 > Answer:
+The biggest challenge in our project was training the GPT-2 model 
+due to its size and computational requirements, 
+which made local training infeasible because of hardware limitations.
+We overcame this by using cloud-based GPU resources on Google Cloud Platform, 
+which provided the necessary computational power but 
+required careful cost management to avoid exceeding our budget.
 
-The biggest challenge in our project was training the GPT-2 model due to its size and computational requirements, 
-that made local training not feasible, due to hardware limitations.
-
-Another significant challenge was deployment.
+Another significant challenge was deployment. 
 Many seemingly small issues, such as environment differences between local and remote setups, 
-caused unexpected bugs and delays. For instance, dependencies that worked locally would occasionally 
-fail in the cloud environment due to version mismatches or configuration differences. 
-Debugging these problems was time-consuming, as it often required analyzing logs and making incremental fixes. 
-To solve these issues, we focused on creating consistent Docker images 
-and ensuring that the environments were reproducible across local and remote setups.
+caused unexpected bugs and delays. For example, dependencies that worked locally 
+would occasionally fail in the cloud due to version mismatches or missing configurations. 
+Debugging these problems was time-consuming and required analyzing logs and 
+making incremental fixes to ensure smooth operation and robust performance.
 
+To address these challenges, we focused on creating consistent 
+and reliable Docker images to package our application and its dependencies. 
+This approach ensured that the environments were reproducible across local and remote setups, 
+reducing errors caused by mismatched configurations. Additionally, we used structured logging, 
+monitoring tools, and automated workflows to identify and resolve deployment issues faster. 
+These solutions not only streamlined the project but also provided valuable lessons 
+in managing complex machine learning workflows, deployments, 
+and infrastructure effectively at scale with minimal downtime.
 
 ### Question 31
 
