@@ -388,7 +388,11 @@ the correct version of the model without confusion, improving collaboration.
 >
 > Answer:
 
---- question 12 fill here ---
+We have used Hydra to configure our project. 
+It allows us to load hyperparameters and settings from a `configs/` folder 
+containing `YAML` file for different stages, such as model training, evaluation, and prediction. 
+These configuration files are organized into subfolders, ensuring clean separation of concerns. 
+Once the config files are defined, the model and scripts automatically retrieve all necessary parameters from them.
 
 ### Question 13
 
@@ -403,7 +407,17 @@ the correct version of the model without confusion, improving collaboration.
 >
 > Answer:
 
---- question 13 fill here ---
+As stated earlier, we used Hydra to manage hyperparameters through configuration files. 
+Each time an experiment was run, the associated hyperparameters were saved in a timestamped folder, 
+allowing us to track the configuration used for that specific experiment. 
+To ensure determinism, we need to specify a random seed in PyTorch and set the random_state parameter 
+in specific functions across runs. This ensures consistent results.
+
+We validated the reproducibility of our experiments by running the model training multiple times 
+with the same hyperparameters and verifying that the resulting weights and biases were identical. 
+This confirmed that our setup was fully deterministic. 
+To reproduce a specific experiment, one simply needs to use the hyperparameters stored 
+in the corresponding configuration file and run the training script.
 
 ### Question 14
 
@@ -435,7 +449,24 @@ the correct version of the model without confusion, improving collaboration.
 >
 > Answer:
 
---- question 15 fill here ---
+For our project, we used Docker to containerize the training and evaluation workflows for the GPT-2 model, 
+ensuring consistency and reproducibility across different environments. 
+The Docker setup allows running experiments seamlessly, either through the CLI or within Docker containers.
+
+- To build a docker image run:
+```bash
+docker build -f dockerfiles/train.dockerfile -t mlops-train .
+```
+- To build the evaluation image run:
+```bash
+docker build -f dockerfiles/evaluate.dockerfile -t mlops-evaluate .
+```
+
+To fine-tune and evaluate the model:
+```bash
+   docker run --rm mlops-train
+   docker run --rm mlops-evaluate
+```
 
 ### Question 16
 
