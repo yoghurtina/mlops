@@ -138,49 +138,52 @@ If you have GPU support, run the containers with GPU access:
 
 ## Project Structure
 ```
+├── .dvc/                     # DVC metadata for versioning data
 ├── .github/                  # GitHub actions and dependabot configuration
 │   └── workflows/
-│       └── ci.yaml
+│       ├── ci.yaml           # Continuous integration pipeline
+│       ├── container.yml     # Container build pipeline
+│       └── gac.yml           # Google Cloud-related actions
 ├── configs/                  # Configuration files for Hydra
-│   ├── __init__.py
+│   ├── __init__.py           # Package initialization
 │   └── config.yaml           # Default project configuration
-├── data/                     # Data directory
-│   ├── processed/            # Processed datasets
-│   └── raw/                  # Raw datasets
-├── dockerfiles/              # Dockerfiles for training and evaluation
-│   ├── api.dockerfile
-│   ├── evaluate.dockerfile
-│   └── train.dockerfile
+├── dockerfiles/              # Dockerfiles for building images
 ├── docs/                     # Project documentation
-│   ├── mkdocs.yml
-│   └── source/
+│   ├── mkdocs.yml            # MkDocs configuration for documentation
+│   └── source/               # Documentation source files
 │       └── index.md
-├── models/                   # Directory for storing trained models
-├── notebooks/                # Jupyter notebooks for exploration and experiments
-├── reports/                  # Reports and visualizations
-│   └── figures/              # Directory for storing figures and plots
+├── jobs/                     # Placeholder for automated job configurations
+├── lightning_logs/           # Logs generated during training
+├── notebooks/                # Jupyter notebooks for exploration
+├── outputs/                  # Outputs from training or inference
+├── reports/                  # Reports
 ├── src/                      # Source code for the project
-│   ├── mlops/                # Main Python package for the project
-│   │   ├── __init__.py
-│   │   ├── api.py            # FastAPI app for text generation
-│   │   ├── data.py           # Data loading and preprocessing logic
-│   │   ├── evaluate.py       # Evaluation logic
-│   │   ├── models.py         # Model definitions
-│   │   ├── train.py          # Training script
-│   │   └── visualize.py      # Visualization utilities
+│   └── mlops/                # Main Python package for the project
+│       ├── __init__.py       # Package initialization
+│       ├── api.py            # FastAPI app for text generation
+│       ├── data.py           # Data loading and preprocessing logic
+│       ├── evaluate.py       # Evaluation logic
+│       ├── model.py          # Model definitions and utilities
+│       ├── quantize.py       # Quantization and pruning logic
+│       ├── train.py          # Training script
+│       ├── util.py           # Utility functions
+│       └── visualize.py      # Visualization utilities
 ├── tests/                    # Unit tests for the project
-│   ├── __init__.py
-│   ├── test_api.py
-│   ├── test_data.py
-│   └── test_model.py
+├── .coverage                 # Coverage report for tests
+├── .coveragerc               # Coverage configuration
+├── .dvcignore                # Files to ignore in DVC
 ├── .gitignore                # Files to ignore in Git
 ├── .pre-commit-config.yaml   # Pre-commit hooks configuration
+├── .ruff_cache/              # Ruff linter cache
+├── CHECKLIST.md              # Checklist for project milestones
 ├── LICENSE                   # Project license
-├── pyproject.toml            # Python project configuration file
+├── models.dvc                # DVC metadata for model versioning
+├── pyproject.toml            # Python project configuration
 ├── README.md                 # Project README
-├── requirements.txt          # Project runtime dependencies
-├── requirements_dev.txt      # Project development dependencies
+├── requirements.txt          # Runtime dependencies
+├── requirements_dev.txt      # Development dependencies
 └── tasks.py                  # Invoke tasks for automation
+
 ```
 
 Created using [mlops_template](https://github.com/SkafteNicki/mlops_template),
