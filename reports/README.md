@@ -342,7 +342,18 @@ and an audit trail of changes
 >
 > Answer:
 
---- question 10 fill here ---
+We used DVC (Data Version Control) in our project to manage and version control
+the model weights after training. With DVC, we were able to
+track changes to our model weights and ensure reproducibility
+across different stages of development. We configured Google Cloud Storage as
+the DVC backend, which allows us to store and retrieve large files like model
+weights without overloading our Git repository.
+
+DVC helped by providing a structured way to manage
+binary artifacts, making it easy to switch between different versions of the
+trained model. It also ensured team members could access
+the correct version of the model without confusion, improving collaboration.
+
 
 ### Question 11
 
@@ -359,17 +370,7 @@ and an audit trail of changes
 >
 > Answer:
 
-We used DVC (Data Version Control) in our project to manage and version control
-the model weights after training. With DVC, we were able to
-track changes to our model weights and ensure reproducibility
-across different stages of development. We configured Google Cloud Storage as
-the DVC backend, which allows us to store and retrieve large files like model
-weights without overloading our Git repository.
-
-DVC helped by providing a structured way to manage
-binary artifacts, making it easy to switch between different versions of the
-trained model. It also ensured team members could access
-the correct version of the model without confusion, improving collaboration.
+--- question 11 fill here ---
 
 ## Running code and tracking experiments
 
