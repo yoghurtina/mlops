@@ -716,7 +716,25 @@ development rather than infrastructure management.
 >
 > Answer:
 
--- question 23 fill here --
+We successfully wrote an API for our model using FastAPI. 
+This API provides a simple interface for generating text based on a user-provided prompt.
+
+The API loads a pre-trained GPT-2 model and its tokenizer at startup, 
+either from a local directory or a GCS bucket, ensuring flexibility in deployment.
+It exposes a `/generate` endpoint where users can send a POST request with a 
+JSON payload containing a `prompt` and an optional `max_length` parameter for text generation. 
+The `/generate` endpoint validates inputs and uses the model to generate text based on the given prompt, 
+returning the generated text in the response.
+
+To generate text, a client can send the following request:
+```bash
+curl -X POST http://<host>:<port>/generate \
+-H "Content-Type: application/json" \
+-d '{"prompt": "Once upon a time", "max_length": 100}'
+```
+The API ensures that inputs are validated, such as checking for a non-empty prompt and a valid max_length. 
+It logs important events, such as input prompts and generated text, for debugging and monitoring. 
+The design makes it easy to deploy in the cloud. 
 
 ### Question 24
 
