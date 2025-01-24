@@ -875,7 +875,14 @@ Overall, the benefits of cloud computing in terms of speed and scalability far o
 >
 > Answer:
 
---- question 28 fill here ---
+We did not implement anything extra in our project that is not covered by the other questions. 
+However, we would like to set up a Kubernetes cluster in the future. 
+Kubernetes would provide automated deployment and management of containerized applications. 
+This would allow us to handle high traffic efficiently by scaling our API dynamically based on demand. 
+It also ensures high availability and fault tolerance, as Kubernetes can redistribute workloads if any pods fail. 
+Additionally, it simplifies the process of deploying updates and managing multiple environments, 
+which is useful for maintaining a robust pipeline. 
+This would make our project more scalable and resilient for real-world use cases.
 
 ### Question 29
 
