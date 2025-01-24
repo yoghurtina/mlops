@@ -370,7 +370,25 @@ the correct version of the model without confusion, improving collaboration.
 >
 > Answer:
 
---- question 11 fill here ---
+We have set up continuous integration (CI) with GitHub Actions to ensure the quality and stability of our codebase. 
+Our CI pipeline is organized into two separate workflows: 
+one for running tests and linting (CI Pipeline) and another for linting only (Lint-Only Pipeline).
+
+The CI Pipeline is triggered on pushes or pull requests to the main branch. 
+It performs the following tasks: code checkout using `actions/checkout@v3`, 
+Python setup with version 3.11 using `actions/setup-python@v4`, 
+installation of dependencies and tools, linting with Ruff using `invoke lint`, 
+and running all unit tests with `invoke test`.
+
+The Lint-Only Pipeline is a lightweight workflow that focuses solely on linting the codebase using Ruff.
+It runs on the main branch to quickly catch formatting or code quality issues.
+
+Key features of our CI setup include using Python 3.11 for compatibility with the latest version, 
+running on `ubuntu-latest` for a consistent runtime environment, 
+caching Python dependencies with pip to speed up subsequent runs, 
+and using `invoke` tasks to simplify and modularize workflows.
+
+An example of our GitHub Actions workflow can be found [here](https://github.com/yoghurtina/mlops/actions/runs/12943237359).
 
 ## Running code and tracking experiments
 
