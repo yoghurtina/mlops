@@ -913,7 +913,17 @@ This would make our project more scalable and resilient for real-world use cases
 >
 > Answer:
 
---- question 30 fill here ---
+The biggest challenge in our project was training the GPT-2 model due to its size and computational requirements, 
+that made local training not feasible, due to hardware limitations.
+
+Another significant challenge was deployment.
+Many seemingly small issues, such as environment differences between local and remote setups, 
+caused unexpected bugs and delays. For instance, dependencies that worked locally would occasionally 
+fail in the cloud environment due to version mismatches or configuration differences. 
+Debugging these problems was time-consuming, as it often required analyzing logs and making incremental fixes. 
+To solve these issues, we focused on creating consistent Docker images 
+and ensuring that the environments were reproducible across local and remote setups.
+
 
 ### Question 31
 
