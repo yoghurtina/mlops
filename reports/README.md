@@ -992,8 +992,10 @@ Student s232462 (Evangelos) focused on deployment tasks of the project in Weeks 
 He handled the creation and deployment of the FastAPI application for inference, 
 deployed the model in GCP using Cloud Run, set up cloud monitoring and alert systems, 
 and worked on optimizing the trained models with techniques like quantization and pruning. 
-Evangelos also completed tasks such creating workflows triggered by model registry updates, 
-and conducting cloud-based training using GCP. 
+Evangelos also completed tasks such as creating workflows triggered by code updates, 
+and conducting cloud-based training using GCP's Vertex AI service.
+He also created Github actions for building the project's training and inference containers and uploading
+them to the Google Cloud Artifact Registry.
 
 During Week 3, the team handled tasks like setting up cloud-based drift detection, 
 instrumenting the API with system metrics, and creating alert systems for monitoring.
