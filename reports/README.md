@@ -569,7 +569,27 @@ To fine-tune and evaluate the model:
 >
 > Answer:
 
---- question 16 fill here ---
+For debugging, we employed a combination of techniques to ensure efficient
+resolution of issues. First, we relied on extensive logging throughout the
+codebase to track key operations, parameter values, and error messages. This
+helped us pinpoint the exact stages where issues occurred, particularly during
+data loading, training, and validation steps.
+
+We also utilized `git blame` to trace changes in the codebase when encountering
+unexpected behavior. This allowed us to identify and investigate recent
+modifications that might have introduced bugs, making the debugging process
+more targeted and efficient. This was useful in two cases where we wanted to make
+major modifications to the training pipeline, in order to add plotting of the training metrics.
+
+Additionally, we leveraged [mprofile](https://github.com/timpalpant/mprofile) to profile memory usage. This was
+particularly important because the model was being deployed on a low-memory
+machine, and we needed to ensure that the memory footprint remained manageable.
+The profiling allowed us to identify the minimum memory requirements for the
+model and optimize the code accordingly. The deployed code runs on 700MB of RAM.
+
+While our profiling focused primarily on memory usage, these combined debugging
+strategies resulted in code that ran smoothly and was well-suited for
+deployment in resource-constrained environments.
 
 ## Working in the cloud
 
