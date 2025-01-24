@@ -772,7 +772,19 @@ overload it manually using our laptops and recorded spamming
 >
 > Answer:
 
---- question 26 fill here ---
+Yes, we managed to implement monitoring for our deployed model. The monitoring
+system tracks the data plane API request count per project and sets up alerting
+mechanisms for anomalies or threshold breaches. For example, we track API
+requests and use a predefined threshold to trigger
+alerts when the requests exceed set limits (for our testing more than 1 request per second).
+
+Additionally, alerts are sent when Service Level Objective (SLO) burn rates
+exceed thresholds.
+For instance, a burn rate
+exceeding a threshold of 10 triggered an alert, notifying us of potential
+latency issues in real-time.
+
+All alerts are sent to a common e-mail address.
 
 ## Overall discussion of project
 
