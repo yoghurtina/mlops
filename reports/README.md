@@ -796,7 +796,7 @@ we created a simple script to spam the API with frequent requests in a short
 time frame, monitoring how the system handled the increased load. During this
 testing, we recorded any errors or crashes
 encountered. No crashes were observed, and the API responded to all requests.
-                                                                                                                                                                ▐
+
 To conduct more formal load testing in the future, we would use tools like
 Locust to simulate thousands of concurrent users, measure the system's
 performance under various conditions, and identify the maximum load the API can
