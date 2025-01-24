@@ -758,7 +758,19 @@ An example of the deployed API URL (currently inactive) is `https://mlops-api-75
 >
 > Answer:
 
-overload it manually using our laptops and recorded spamming
+We performed manual load testing on our API by simulating a high number of
+concurrent requests from multiple devices, including our laptops. To do this,
+we created a simple script to spam the API with frequent requests in a short
+time frame, monitoring how the system handled the increased load. During this
+testing, we recorded any errors or crashes
+encountered. No crashes were observed, and the API responded to all requests.
+                                                                                                                                                                ▐
+To conduct more formal load testing in the future, we would use tools like
+Locust to simulate thousands of concurrent users, measure the system's
+performance under various conditions, and identify the maximum load the API can
+handle before crashing. This would provide more precise insights into scaling
+and optimization requirements for deployment in production environments.    
+ 
 ### Question 26
 
 > **Did you manage to implement monitoring of your deployed model? If yes, explain how it works. If not, explain how**
