@@ -604,7 +604,12 @@ deployment in resource-constrained environments.
 >
 > Answer:
 
---- question 17 fill here ---
+We used the following GCP services in our project:
+1. Cloud Storage (Buckets): Used for saving and retrieving model weights and datasets. It provides scalable and durable storage solutions.
+2. Compute Engine: Utilized for deploying our application, offering virtual machines to run workloads with customizable configurations.
+3. Vertex AI: Used for launching and managing training jobs, providing a unified interface for ML workflows, including hyperparameter tuning and training.
+4. Artifact Registry: Used for storing and managing container images.
+
 
 ### Question 18
 
@@ -619,11 +624,20 @@ deployment in resource-constrained environments.
 >
 > Answer:
 
-We used the following GCP services in our project:
-1. Cloud Storage (Buckets): Used for saving and retrieving model weights and datasets. It provides scalable and durable storage solutions.
-2. Compute Engine: Utilized for deploying our application, offering virtual machines to run workloads with customizable configurations.
-3. Vertex AI: Used for launching and managing training jobs, providing a unified interface for ML workflows, including hyperparameter tuning and training.
-4. Artifact Registry: Used for storing and managing container images.
+We used the Compute Engine to run our training and API deployment tasks. For
+training, we utilized a VM instance with the e2-standard-4 machine type, which
+includes 1 vCPU and 1 GB of memory. This configuration was chosen as it
+provided a cost-effective balance of performance and speed for our
+workload.
+
+To start the instance, we specified a custom container image that contained our
+inference code and dependencies. The container image was built using a
+Dockerfile and stored in the Google Container Registry. 
+The API container image was pulled from the registry and run on
+the VM, resulting in consistent behavior across local and cloud environments.
+
+The Compute Engine was instrumental in providing scalable and reliable
+infrastructure for our deployment tasks.
 
 ### Question 19
 
@@ -672,7 +686,20 @@ For building our containers, we used GitHub Actions, which built the images and 
 >
 > Answer:
 
---- question 22 fill here ---
+We managed to train our model in the cloud using Vertex AI.
+To achieve this, we defined a custom training job configuration in a `train.yml`
+file. The job specified the use of a e2-standard-4 machine type with one
+replica, and the training container was built and hosted at
+`us-central1-docker.pkg.dev/mlops-448421/mlops-docker-repo/mlops-train:latest`.
+
+The job was executed by running the following command:
+```bash
+gcloud ai custom-jobs create --region=us-central1 --config=jobs/train.yml.
+```
+We chose Vertex AI for its integration with GCP services, support for custom
+Docker images, and scalable infrastructure, which allowed us to focus on model
+development rather than infrastructure management.
+
 
 ## Deployment
 
@@ -689,19 +716,7 @@ For building our containers, we used GitHub Actions, which built the images and 
 >
 > Answer:
 
-We managed to train our model in the cloud using Vertex AI.
-To achieve this, we defined a custom training job configuration in a `train.yml`
-file. The job specified the use of a e2-standard-4 machine type with one
-replica, and the training container was built and hosted at
-`us-central1-docker.pkg.dev/mlops-448421/mlops-docker-repo/mlops-train:latest`.
-
-The job was executed by running the following command:
-```bash
-gcloud ai custom-jobs create --region=us-central1 --config=jobs/train.yml.
-```
-We chose Vertex AI for its integration with GCP services, support for custom
-Docker images, and scalable infrastructure, which allowed us to focus on model
-development rather than infrastructure management.
+-- question 23 fill here --
 
 ### Question 24
 
