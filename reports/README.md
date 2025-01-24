@@ -209,7 +209,18 @@ Finally, run `invoke dev-requirements` to install development tools like linters
 >
 > Answer:
 
---- question 5 fill here ---
+From the cookiecutter template, we filled out the `configs`, `dockerfiles`, and `src` folders. 
+The configs folder contains the Hydra configuration files, and we added `config.yaml` for the default project settings. 
+The dockerfiles folder now includes specific files for api and train, 
+and we removed `dependabot.yaml` since we aren't using dependabot for dependency updates.
+
+We added `quantize.py` and `util.py` under `src/mlops` for quantization, pruning, and utility functions,
+which were not part of the original template. 
+We also introduced an outputs folder under the root directory for storing generated results, 
+such as models or intermediate outputs, and a `.dvc/` folder to integrate DVC for versioning data and models.
+
+Lastly, we updated `.github/workflows` to include `ci.yaml`, `container.yml`, and `gac.yml` for CI/CD and cloud integration.
+This adaptation allowed us to support additional pipelines and tools specific to our project needs.
 
 ### Question 6
 
@@ -224,7 +235,20 @@ Finally, run `invoke dev-requirements` to install development tools like linters
 >
 > Answer:
 
---- question 6 fill here ---
+We implemented rules for code quality and format by using `Ruff` for linting and 
+type checking to ensure consistency and correctness in the codebase. 
+Ruff helps us automatically detect and fix issues like unused imports,
+missing or unnecessary f-strings, and improper exception handling. 
+Additionally, we incorporated type hints throughout the project 
+to enforce type safety and make the code easier to understand and maintain.
+
+Documentation was written for all major functions and modules 
+to provide clarity on their purpose, inputs, and outputs. 
+
+These concepts are important in larger projects because 
+they improve code readability, reduce errors, and make debugging easier.
+For example, type checking prevents mismatched data usage, which could otherwise lead to runtime errors. 
+Linting enforces coding standards, ensuring that code written by different contributors follows a consistent style. 
 
 ## Version control
 
@@ -243,7 +267,13 @@ Finally, run `invoke dev-requirements` to install development tools like linters
 >
 > Answer:
 
---- question 7 fill here ---
+In total, we have implemented 16 tests. 
+These tests cover data loading, preprocessing, and dataloader consistency, 
+which ensure the pipeline can handle various dataset configurations. 
+We also test model construction, initialization, and forward passes 
+to verify that the core functionalities of the model are working as expected. 
+Additionally, training steps, validation steps, and optimizer configuration 
+are tested to ensure the model training loop behaves correctly.
 
 ### Question 8
 
@@ -258,7 +288,16 @@ Finally, run `invoke dev-requirements` to install development tools like linters
 >
 > Answer:
 
---- question 8 fill here ---
+The total code coverage of our code is 79%, which includes core components 
+like data loading (93%), evaluation (44%), and model-related code (100%).
+While this is a good starting point, there is room for improvement, 
+especially in the evaluation module, which has significant untested code.
+
+Even with 100% code coverage, the quality of the tests is more important than the quantity.
+High coverage might only indicate that the code was executed, 
+but it doesn't ensure that all edge cases and logic branches were tested rigorously. 
+Achieving high-quality code requires not only high coverage but also well-designed 
+tests that validate functionality under diverse scenarios, including edge cases and failure paths.
 
 ### Question 9
 
