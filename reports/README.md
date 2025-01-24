@@ -619,7 +619,11 @@ deployment in resource-constrained environments.
 >
 > Answer:
 
---- question 18 fill here ---
+We used the following GCP services in our project:
+1. Cloud Storage (Buckets): Used for saving and retrieving model weights and datasets. It provides scalable and durable storage solutions.
+2. Compute Engine: Utilized for deploying our application, offering virtual machines to run workloads with customizable configurations.
+3. Vertex AI: Used for launching and managing training jobs, providing a unified interface for ML workflows, including hyperparameter tuning and training.
+4. Artifact Registry: Used for storing and managing container images.
 
 ### Question 19
 
@@ -628,7 +632,9 @@ deployment in resource-constrained environments.
 >
 > Answer:
 
---- question 19 fill here ---
+In our GCP bucket, we stored the model weights and vocabulary files.
+
+![GCP Bucket](figures/bucket.png)
 
 ### Question 20
 
@@ -637,7 +643,9 @@ deployment in resource-constrained environments.
 >
 > Answer:
 
---- question 20 fill here ---
+In our artifact registry, we stored containers for our training and serving code.
+
+![GCP Artifact Registry](figures/artifact-registry.png)
 
 ### Question 21
 
@@ -646,7 +654,10 @@ deployment in resource-constrained environments.
 >
 > Answer:
 
---- question 21 fill here ---
+
+For building our containers, we used GitHub Actions, which built the images and pushed them to the Artifact Registry.
+
+![GCP Cloud Build](figures/github-gca.png)
 
 ### Question 22
 
